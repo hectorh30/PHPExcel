@@ -3763,6 +3763,12 @@ class PHPExcel_Calculation {
 					$cellValue = NULL;
 					if ($pSheet->cellExists($reference)) {
 						$returnValue[$currentRow][$currentCol] = $pSheet->getCell($reference)->getCalculatedValue($resetLog);
+
+						$parseFormula = $this->parseFormula($pSheet->getCell($reference)->getValue());
+                        if ($parseFormula && isset(end($parseFormula)['value']) && 'SUBTOTAL(' === end($parseFormula)['value']) {
+                            $returnValue[$currentRow][$currentCol] = NULL;
+                        }
+
 					} else {
 						$returnValue[$currentRow][$currentCol] = NULL;
 					}
