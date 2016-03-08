@@ -964,7 +964,7 @@ class PHPExcel_Writer_HTML extends PHPExcel_Writer_Abstract implements PHPExcel_
 	 * @param	PHPExcel_Style_Border		$pStyle			PHPExcel_Style_Border
 	 * @return	string
 	 */
-	private function _createCSSStyleBorder(PHPExcel_Style_Border $pStyle) {
+	protected function _createCSSStyleBorder(PHPExcel_Style_Border $pStyle) {
 		// Create CSS
 //		$css = $this->_mapBorderStyle($pStyle->getBorderStyle()) . ' #' . $pStyle->getColor()->getRGB();
 		//	Create CSS - add !important to non-none border styles for merged cells  

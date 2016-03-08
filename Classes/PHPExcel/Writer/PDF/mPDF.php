@@ -54,6 +54,23 @@ class PHPExcel_Writer_PDF_mPDF extends PHPExcel_Writer_PDF_Core implements PHPEx
     }
 
     /**
+     * Create CSS style (PHPExcel_Style_Border)
+     *
+     * @param   PHPExcel_Style_Border       $pStyle         PHPExcel_Style_Border
+     * @return  string
+     */
+    protected function _createCSSStyleBorder(PHPExcel_Style_Border $pStyle) {
+        // Create CSS
+//      $css = $this->_mapBorderStyle($pStyle->getBorderStyle()) . ' #' . $pStyle->getColor()->getRGB();
+        //  Create CSS - add !important to non-none border styles for merged cells  
+        $borderStyle = $this->_mapBorderStyle($pStyle->getBorderStyle());
+        $css = $borderStyle . ' #' . $pStyle->getColor()->getRGB();
+
+        // Return
+        return $css;
+    }
+
+    /**
      *  Save PHPExcel to file
      *
      *  @param     string     $pFilename   Name of the file to save as
