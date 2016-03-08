@@ -1012,7 +1012,7 @@ class PHPExcel_Writer_HTML extends PHPExcel_Writer_Abstract implements PHPExcel_
      * @param    PHPExcel_Style_Border        $pStyle            PHPExcel_Style_Border
      * @return    string
      */
-    private function createCSSStyleBorder(PHPExcel_Style_Border $pStyle)
+    protected function createCSSStyleBorder(PHPExcel_Style_Border $pStyle)
     {
         // Create CSS
 //        $css = $this->mapBorderStyle($pStyle->getBorderStyle()) . ' #' . $pStyle->getColor()->getRGB();
