@@ -234,7 +234,7 @@ class PHPExcel_Writer_HTML extends PHPExcel_Writer_Abstract implements PHPExcel_
      * @param    int        $borderStyle        Sheet index
      * @return    string
      */
-    private function mapBorderStyle($borderStyle)
+    protected function mapBorderStyle($borderStyle)
     {
         switch ($borderStyle) {
             case PHPExcel_Style_Border::BORDER_NONE:
