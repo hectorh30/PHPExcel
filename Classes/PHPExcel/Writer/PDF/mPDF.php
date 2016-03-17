@@ -35,6 +35,8 @@ if (file_exists($pdfRendererClassFile)) {
  */
 class PHPExcel_Writer_PDF_mPDF extends PHPExcel_Writer_PDF_Core implements PHPExcel_Writer_IWriter
 {
+    private $mpdfObject;
+
     /**
      *  Create a new PHPExcel_Writer_PDF
      *
@@ -109,6 +111,11 @@ class PHPExcel_Writer_PDF_mPDF extends PHPExcel_Writer_PDF_Core implements PHPEx
 
         //  Create PDF
         $pdf = new mpdf();
+
+        if ($this->mpdfObject) {
+            $pdf = $this->mpdfObject;
+        }
+
         $ortmp = $orientation;
         $pdf->_setPageSize(strtoupper($paperSize), $ortmp);
         $pdf->DefOrientation = $orientation;
@@ -131,5 +138,12 @@ class PHPExcel_Writer_PDF_mPDF extends PHPExcel_Writer_PDF_Core implements PHPEx
         fwrite($fileHandle, $pdf->Output('', 'S'));
 
         parent::restoreStateAfterSave($fileHandle);
+    }
+
+    public function setMpdfObject(mpdf $mpdfObject)
+    {
+        $this->mpdfObject = $mpdfObject;
+
+        return $this;
     }
 }
