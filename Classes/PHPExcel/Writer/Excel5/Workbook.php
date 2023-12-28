@@ -807,7 +807,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 	 * @param	boolean		$isBuiltIn		Built-in name?
 	 * @return	string	Complete binary record data
 	 */
-	private function _writeDefinedNameBiff8($name, $formulaData, $sheetIndex = 0, $isBuiltIn = false)
+	private function _writeDefinedNameBiff8($name = null, $formulaData = null, $sheetIndex = 0, $isBuiltIn = false)
 	{
 		$record = 0x0018;
 
