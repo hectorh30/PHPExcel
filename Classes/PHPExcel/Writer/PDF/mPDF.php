@@ -27,7 +27,7 @@
 
 
 /**  Require mPDF library */
-$pdfRendererClassFile = PHPExcel_Settings::getPdfRendererPath() . '/mpdf.php';
+$pdfRendererClassFile = PHPExcel_Settings::getPdfRendererPath() . '/src/Mpdf.php';
 if (file_exists($pdfRendererClassFile)) {
     require_once $pdfRendererClassFile;
 } else {
