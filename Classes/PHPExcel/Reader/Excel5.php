@@ -4367,17 +4367,17 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
 			// first row '1' + last row '16384' indicates that full column is selected (apparently also in BIFF8!)
 			if (preg_match('/^([A-Z]+1\:[A-Z]+)16384$/', (string) $selectedCells)) {
-				$selectedCells = preg_replace('/^([A-Z]+1\:[A-Z]+)16384$/', '$[1]1048576', (string) $selectedCells);
+				$selectedCells = preg_replace('/^([A-Z]+1\:[A-Z]+)16384$/', '${1}1048576', (string) $selectedCells);
 			}
 
 			// first row '1' + last row '65536' indicates that full column is selected
 			if (preg_match('/^([A-Z]+1\:[A-Z]+)65536$/', (string) $selectedCells)) {
-				$selectedCells = preg_replace('/^([A-Z]+1\:[A-Z]+)65536$/', '$[1]1048576', (string) $selectedCells);
+				$selectedCells = preg_replace('/^([A-Z]+1\:[A-Z]+)65536$/', '${1}1048576', (string) $selectedCells);
 			}
 
 			// first column 'A' + last column 'IV' indicates that full row is selected
 			if (preg_match('/^(A[0-9]+\:)IV([0-9]+)$/', (string) $selectedCells)) {
-				$selectedCells = preg_replace('/^(A[0-9]+\:)IV([0-9]+)$/', '$[1]XFD$[2]', (string) $selectedCells);
+				$selectedCells = preg_replace('/^(A[0-9]+\:)IV([0-9]+)$/', '${1}XFD${2}', (string) $selectedCells);
 			}
 
 			$this->_phpSheet->setSelectedCells($selectedCells);

@@ -2297,16 +2297,16 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
         $pCoordinate = strtoupper($pCoordinate);
 
         // Convert 'A' to 'A:A'
-        $pCoordinate = preg_replace('/^([A-Z]+)$/', '$[1]:$[1]', $pCoordinate);
+        $pCoordinate = preg_replace('/^([A-Z]+)$/', '${1}:${1}', $pCoordinate);
 
         // Convert '1' to '1:1'
-        $pCoordinate = preg_replace('/^([0-9]+)$/', '$[1]:$[1]', $pCoordinate);
+        $pCoordinate = preg_replace('/^([0-9]+)$/', '${1}:${1}', $pCoordinate);
 
         // Convert 'A:C' to 'A1:C1048576'
-        $pCoordinate = preg_replace('/^([A-Z]+):([A-Z]+)$/', '$[1]1:$[2]1048576', $pCoordinate);
+        $pCoordinate = preg_replace('/^([A-Z]+):([A-Z]+)$/', '${1}1:${2}1048576', $pCoordinate);
 
         // Convert '1:3' to 'A1:XFD3'
-        $pCoordinate = preg_replace('/^([0-9]+):([0-9]+)$/', 'A$[1]:XFD$[2]', $pCoordinate);
+        $pCoordinate = preg_replace('/^([0-9]+):([0-9]+)$/', 'A${1}:XFD${2}', $pCoordinate);
 
         if (str_contains($pCoordinate,':') || str_contains($pCoordinate,',')) {
             [$first, ] = PHPExcel_Cell::splitRange($pCoordinate);
