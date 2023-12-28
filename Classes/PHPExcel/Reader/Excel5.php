@@ -1859,7 +1859,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
 		// offset: 0; size: 2; 0 = base 1900, 1 = base 1904
 		PHPExcel_Shared_Date::setExcelCalendar(PHPExcel_Shared_Date::CALENDAR_WINDOWS_1900);
-		if (ord($recordData{0}) == 1) {
+		if (ord($recordData[0]) == 1) {
 			PHPExcel_Shared_Date::setExcelCalendar(PHPExcel_Shared_Date::CALENDAR_MAC_1904);
 		}
 	}
@@ -2057,7 +2057,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
 			// offset:  6; size: 1; Alignment and text break
 			// bit 2-0, mask 0x07; horizontal alignment
-			$horAlign = (0x07 & ord($recordData{6})) >> 0;
+			$horAlign = (0x07 & ord($recordData[6])) >> 0;
 			switch ($horAlign) {
 				case 0:
 					$objStyle->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_GENERAL);
@@ -2082,7 +2082,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 					break;
 			}
 			// bit 3, mask 0x08; wrap text
-			$wrapText = (0x08 & ord($recordData{6})) >> 3;
+			$wrapText = (0x08 & ord($recordData[6])) >> 3;
 			switch ($wrapText) {
 				case 0:
 					$objStyle->getAlignment()->setWrapText(false);
@@ -2092,7 +2092,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 					break;
 			}
 			// bit 6-4, mask 0x70; vertical alignment
-			$vertAlign = (0x70 & ord($recordData{6})) >> 4;
+			$vertAlign = (0x70 & ord($recordData[6])) >> 4;
 			switch ($vertAlign) {
 				case 0:
 					$objStyle->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
@@ -2333,7 +2333,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2349,7 +2349,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2365,7 +2365,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2381,7 +2381,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2397,7 +2397,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2413,7 +2413,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2429,7 +2429,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2445,7 +2445,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2487,7 +2487,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
 			if ($isBuiltIn) {
 				// offset: 2; size: 1; identifier for built-in style
-				$builtInId = ord($recordData{2});
+				$builtInId = ord($recordData[2]);
 
 				switch ($builtInId) {
 				case 0x00:
@@ -2554,7 +2554,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		$this->_pos += 4 + $length;
 
 		// offset: 4; size: 1; sheet state
-		switch (ord($recordData{4})) {
+		switch (ord($recordData[4])) {
 			case 0x00: $sheetState = PHPExcel_Worksheet::SHEETSTATE_VISIBLE;    break;
 			case 0x01: $sheetState = PHPExcel_Worksheet::SHEETSTATE_HIDDEN;     break;
 			case 0x02: $sheetState = PHPExcel_Worksheet::SHEETSTATE_VERYHIDDEN; break;
@@ -2562,7 +2562,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		}
 
 		// offset: 5; size: 1; sheet type
-		$sheetType = ord($recordData{5});
+		$sheetType = ord($recordData[5]);
 
 		// offset: 6; size: var; sheet name
 		if ($this->_version == self::XLS_BIFF8) {
@@ -2741,7 +2741,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 			// offset: 2; size: 1; keyboard shortcut
 
 			// offset: 3; size: 1; length of the name (character count)
-			$nlen = ord($recordData{3});
+			$nlen = ord($recordData[3]);
 
 			// offset: 4; size: 2; size of the formula data (it can happen that this is zero)
 			// note: there can also be additional data, this is not included in $flen
@@ -2825,7 +2825,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 			$pos += 2;
 
 			// option flags
-			$optionFlags = ord($recordData{$pos});
+			$optionFlags = ord($recordData[$pos]);
 			++$pos;
 
 			// bit: 0; mask: 0x01; 0 = compressed; 1 = uncompressed
@@ -2894,7 +2894,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
 					// repeated option flags
 					// OpenOffice.org documentation 5.21
-					$option = ord($recordData{$pos});
+					$option = ord($recordData[$pos]);
 					++$pos;
 
 					if ($isCompressed && ($option == 0)) {
@@ -2918,7 +2918,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						// this fragment compressed
 						$len = min($charsLeft, $limitpos - $pos);
 						for ($j = 0; $j < $len; ++$j) {
-							$retstr .= $recordData{$pos + $j} . chr(0);
+							$retstr .= $recordData[$pos + $j] . chr(0);
 						}
 						$charsLeft -= $len;
 						$isCompressed = false;
@@ -3817,7 +3817,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		// We can apparently not rely on $isPartOfSharedFormula. Even when $isPartOfSharedFormula = true
 		// the formula data may be ordinary formula data, therefore we need to check
 		// explicitly for the tExp token (0x01)
-		$isPartOfSharedFormula = $isPartOfSharedFormula && ord($formulaStructure{2}) == 0x01;
+		$isPartOfSharedFormula = $isPartOfSharedFormula && ord($formulaStructure[2]) == 0x01;
 
 		if ($isPartOfSharedFormula) {
 			// part of shared formula which means there will be a formula with a tExp token and nothing else
@@ -3841,7 +3841,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 			$xfIndex = self::_GetInt2d($recordData, 4);
 
 			// offset: 6; size: 8; result of the formula
-			if ( (ord($recordData{6}) == 0)
+			if ( (ord($recordData[6]) == 0)
 				&& (ord($recordData{12}) == 255)
 				&& (ord($recordData{13}) == 255) ) {
 
@@ -3857,7 +3857,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 				// read STRING record
 				$value = $this->_readString();
 
-			} elseif ((ord($recordData{6}) == 1)
+			} elseif ((ord($recordData[6]) == 1)
 				&& (ord($recordData{12}) == 255)
 				&& (ord($recordData{13}) == 255)) {
 
@@ -3865,7 +3865,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 				$dataType = PHPExcel_Cell_DataType::TYPE_BOOL;
 				$value = (bool) ord($recordData{8});
 
-			} elseif ((ord($recordData{6}) == 2)
+			} elseif ((ord($recordData[6]) == 2)
 				&& (ord($recordData{12}) == 255)
 				&& (ord($recordData{13}) == 255)) {
 
@@ -3873,7 +3873,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 				$dataType = PHPExcel_Cell_DataType::TYPE_ERROR;
 				$value = self::_mapErrorCode(ord($recordData{8}));
 
-			} elseif ((ord($recordData{6}) == 3)
+			} elseif ((ord($recordData[6]) == 3)
 				&& (ord($recordData{12}) == 255)
 				&& (ord($recordData{13}) == 255)) {
 
@@ -4010,7 +4010,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 			$xfIndex = self::_GetInt2d($recordData, 4);
 
 			// offset: 6; size: 1; the boolean value or error value
-			$boolErr = ord($recordData{6});
+			$boolErr = ord($recordData[6]);
 
 			// offset: 7; size: 1; 0=boolean; 1=error
 			$isError = ord($recordData{7});
@@ -4391,7 +4391,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
 		if (!$this->_readDataOnly) {
 			// offset: 0; size: 1; pane identifier
-			$paneId = ord($recordData{0});
+			$paneId = ord($recordData[0]);
 
 			// offset: 1; size: 2; index to row of the active cell
 			$r = self::_GetInt2d($recordData, 1);
@@ -4411,17 +4411,17 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
 			// first row '1' + last row '16384' indicates that full column is selected (apparently also in BIFF8!)
 			if (preg_match('/^([A-Z]+1\:[A-Z]+)16384$/', $selectedCells)) {
-				$selectedCells = preg_replace('/^([A-Z]+1\:[A-Z]+)16384$/', '${1}1048576', $selectedCells);
+				$selectedCells = preg_replace('/^([A-Z]+1\:[A-Z]+)16384$/', '$[1]1048576', $selectedCells);
 			}
 
 			// first row '1' + last row '65536' indicates that full column is selected
 			if (preg_match('/^([A-Z]+1\:[A-Z]+)65536$/', $selectedCells)) {
-				$selectedCells = preg_replace('/^([A-Z]+1\:[A-Z]+)65536$/', '${1}1048576', $selectedCells);
+				$selectedCells = preg_replace('/^([A-Z]+1\:[A-Z]+)65536$/', '$[1]1048576', $selectedCells);
 			}
 
 			// first column 'A' + last column 'IV' indicates that full row is selected
 			if (preg_match('/^(A[0-9]+\:)IV([0-9]+)$/', $selectedCells)) {
-				$selectedCells = preg_replace('/^(A[0-9]+\:)IV([0-9]+)$/', '${1}XFD${2}', $selectedCells);
+				$selectedCells = preg_replace('/^(A[0-9]+\:)IV([0-9]+)$/', '$[1]XFD$[2]', $selectedCells);
 			}
 
 			$this->_phpSheet->setSelectedCells($selectedCells);
@@ -4543,9 +4543,9 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 				$hyperlinkType = 'UNC';
 			} else if (!$isFileLinkOrUrl) {
 				$hyperlinkType = 'workbook';
-			} else if (ord($recordData{$offset}) == 0x03) {
+			} else if (ord($recordData[$offset]) == 0x03) {
 				$hyperlinkType = 'local';
-			} else if (ord($recordData{$offset}) == 0xE0) {
+			} else if (ord($recordData[$offset]) == 0xE0) {
 				$hyperlinkType = 'URL';
 			}
 
@@ -6090,10 +6090,10 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		$lr = self::_GetInt2d($subData, 2) + 1;
 
 		// offset: 4; size: 1; index to first column
-		$fc = ord($subData{4});
+		$fc = ord($subData[4]);
 
 		// offset: 5; size: 1; index to last column
-		$lc = ord($subData{5});
+		$lc = ord($subData[5]);
 
 		// check values
 		if ($fr > $lr || $fc > $lc) {
@@ -6500,13 +6500,13 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 	private static function _readRGB($rgb)
 	{
 		// offset: 0; size 1; Red component
-		$r = ord($rgb{0});
+		$r = ord($rgb[0]);
 
 		// offset: 1; size: 1; Green component
-		$g = ord($rgb{1});
+		$g = ord($rgb[1]);
 
 		// offset: 2; size: 1; Blue component
-		$b = ord($rgb{2});
+		$b = ord($rgb[2]);
 
 		// HEX notation, e.g. 'FF00FC'
 		$rgb = sprintf('%02X%02X%02X', $r, $g, $b);
