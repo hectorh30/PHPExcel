@@ -201,8 +201,8 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 	 * @param mixed		$parser			The formula parser created for the Workbook
 	 */
 	public function __construct(PHPExcel $phpExcel = null,
-								&$str_total, &$str_unique, &$str_table, &$colors,
-								$parser )
+								&$str_total = null, &$str_unique = null, &$str_table = null, &$colors = null,
+								$parser = null )
 	{
 		// It needs to call its parent's constructor explicitly
 		parent::__construct();
