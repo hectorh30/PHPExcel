@@ -1,3 +1,4 @@
+vendor/
 build/PHPExcel.phar
 unitTests/codeCoverage
 analysis
