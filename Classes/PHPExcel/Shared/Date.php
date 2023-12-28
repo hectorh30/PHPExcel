@@ -37,8 +37,8 @@
 class PHPExcel_Shared_Date
 {
 	/** constants */
-	const CALENDAR_WINDOWS_1900 = 1900;		//	Base date of 1st Jan 1900 = 1.0
-	const CALENDAR_MAC_1904 = 1904;			//	Base date of 2nd Jan 1904 = 1.0
+	final public const CALENDAR_WINDOWS_1900 = 1900;		//	Base date of 1st Jan 1900 = 1.0
+	final public const CALENDAR_MAC_1904 = 1904;			//	Base date of 2nd Jan 1904 = 1.0
 
 	/*
 	 * Names of the months of the year, indexed by shortname
@@ -47,19 +47,7 @@ class PHPExcel_Shared_Date
 	 * @public
 	 * @var	string[]
 	 */
-	public static $_monthNames = array(	'Jan' => 'January',
-										'Feb' => 'February',
-										'Mar' => 'March',
-										'Apr' => 'April',
-										'May' => 'May',
-										'Jun' => 'June',
-										'Jul' => 'July',
-										'Aug' => 'August',
-										'Sep' => 'September',
-										'Oct' => 'October',
-										'Nov' => 'November',
-										'Dec' => 'December',
-									  );
+	public static $_monthNames = ['Jan' => 'January', 'Feb' => 'February', 'Mar' => 'March', 'Apr' => 'April', 'May' => 'May', 'Jun' => 'June', 'Jul' => 'July', 'Aug' => 'August', 'Sep' => 'September', 'Oct' => 'October', 'Nov' => 'November', 'Dec' => 'December'];
 
 	/*
 	 * Names of the months of the year, indexed by shortname
@@ -68,11 +56,7 @@ class PHPExcel_Shared_Date
 	 * @public
 	 * @var	string[]
 	 */
-	public static $_numberSuffixes = array(	'st',
-											'nd',
-											'rd',
-											'th',
-										  );
+	public static $_numberSuffixes = ['st', 'nd', 'rd', 'th'];
 
 	/*
 	 * Base calendar year to use for calculations
@@ -182,7 +166,7 @@ class PHPExcel_Shared_Date
 	 *	@return	mixed		Excel date/time value
 	 *							or boolean FALSE on failure
 	 */
-	public static function PHPToExcel($dateValue = 0, $adjustToTimezone = FALSE, $timezone = NULL) {
+	public static function PHPToExcel(mixed $dateValue = 0, $adjustToTimezone = FALSE, $timezone = NULL) {
 		$saveTimeZone = date_default_timezone_get();
 		date_default_timezone_set('UTC');
 		$retValue = FALSE;
@@ -220,9 +204,9 @@ class PHPExcel_Shared_Date
 			//
 			$excel1900isLeapYear = TRUE;
 			if (($year == 1900) && ($month <= 2)) { $excel1900isLeapYear = FALSE; }
-			$my_excelBaseDate = 2415020;
+			$my_excelBaseDate = 2_415_020;
 		} else {
-			$my_excelBaseDate = 2416481;
+			$my_excelBaseDate = 2_416_481;
 			$excel1900isLeapYear = FALSE;
 		}
 
@@ -235,38 +219,32 @@ class PHPExcel_Shared_Date
 		}
 
 		//	Calculate the Julian Date, then subtract the Excel base date (JD 2415020 = 31-Dec-1899 Giving Excel Date of 0)
-		$century = substr($year,0,2);
-		$decade = substr($year,2,2);
-		$excelDate = floor((146097 * $century) / 4) + floor((1461 * $decade) / 4) + floor((153 * $month + 2) / 5) + $day + 1721119 - $my_excelBaseDate + $excel1900isLeapYear;
+		$century = substr((string) $year,0,2);
+		$decade = substr((string) $year,2,2);
+		$excelDate = floor((146097 * $century) / 4) + floor((1461 * $decade) / 4) + floor((153 * $month + 2) / 5) + $day + 1_721_119 - $my_excelBaseDate + $excel1900isLeapYear;
 
 		$excelTime = (($hours * 3600) + ($minutes * 60) + $seconds) / 86400;
 
 		return (float) $excelDate + $excelTime;
 	}	//	function FormattedPHPToExcel()
-
-
-	/**
-	 * Is a given cell a date/time?
-	 *
-	 * @param	 PHPExcel_Cell	$pCell
-	 * @return	 boolean
-	 */
-	public static function isDateTime(PHPExcel_Cell $pCell) {
+ /**
+  * Is a given cell a date/time?
+  *
+  * @return	 boolean
+  */
+ public static function isDateTime(PHPExcel_Cell $pCell) {
 		return self::isDateTimeFormat(
 			$pCell->getWorksheet()->getStyle(
 				$pCell->getCoordinate()
 			)->getNumberFormat()
 		);
 	}	//	function isDateTime()
-
-
-	/**
-	 * Is a given number format a date/time?
-	 *
-	 * @param	 PHPExcel_Style_NumberFormat	$pFormat
-	 * @return	 boolean
-	 */
-	public static function isDateTimeFormat(PHPExcel_Style_NumberFormat $pFormat) {
+ /**
+  * Is a given number format a date/time?
+  *
+  * @return	 boolean
+  */
+ public static function isDateTimeFormat(PHPExcel_Style_NumberFormat $pFormat) {
 		return self::isDateTimeFormatCode($pFormat->getFormatCode());
 	}	//	function isDateTimeFormat()
 
@@ -315,14 +293,14 @@ class PHPExcel_Shared_Date
 		}
 
 		//	Typically number, currency or accounting (or occasionally fraction) formats
-		if ((substr($pFormatCode,0,1) == '_') || (substr($pFormatCode,0,2) == '0 ')) {
+		if ((str_starts_with($pFormatCode, '_')) || (str_starts_with($pFormatCode, '0 '))) {
 			return FALSE;
 		}
 		// Try checking for any of the date formatting characters that don't appear within square braces
 		if (preg_match('/(^|\])[^\[]*['.self::$possibleDateFormatCharacters.']/i',$pFormatCode)) {
 			//	We might also have a format mask containing quoted strings...
 			//		we don't want to test for any of our characters within the quoted blocks
-			if (strpos($pFormatCode,'"') !== FALSE) {
+			if (str_contains($pFormatCode,'"')) {
 				$segMatcher = FALSE;
 				foreach(explode('"',$pFormatCode) as $subVal) {
 					//	Only test in alternate array entries (the non-quoted blocks)
@@ -358,7 +336,7 @@ class PHPExcel_Shared_Date
 		if ($dateValueNew === PHPExcel_Calculation_Functions::VALUE()) {
 			return FALSE;
 		} else {
-			if (strpos($dateValue, ':') !== FALSE) {
+			if (str_contains($dateValue, ':')) {
 				$timeValue = PHPExcel_Calculation_DateTime::TIMEVALUE($dateValue);
 				if ($timeValue === PHPExcel_Calculation_Functions::VALUE()) {
 					return FALSE;
@@ -383,7 +361,7 @@ class PHPExcel_Shared_Date
     }
 
     public static function dayStringToNumber($day) {
-		$strippedDayValue = (str_replace(self::$_numberSuffixes,'',$day));
+		$strippedDayValue = (str_replace(self::$_numberSuffixes,'',(string) $day));
 		if (is_numeric($strippedDayValue)) {
 		    return $strippedDayValue;
 		}

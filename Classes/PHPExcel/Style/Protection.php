@@ -36,9 +36,9 @@
 class PHPExcel_Style_Protection extends PHPExcel_Style_Supervisor implements PHPExcel_IComparable
 {
 	/** Protection styles */
-	const PROTECTION_INHERIT		= 'inherit';
-	const PROTECTION_PROTECTED		= 'protected';
-	const PROTECTION_UNPROTECTED	= 'unprotected';
+	final public const PROTECTION_INHERIT		= 'inherit';
+	final public const PROTECTION_PROTECTED		= 'protected';
+	final public const PROTECTION_UNPROTECTED	= 'unprotected';
 
 	/**
 	 * Locked
@@ -95,7 +95,7 @@ class PHPExcel_Style_Protection extends PHPExcel_Style_Supervisor implements PHP
 	 */
 	public function getStyleArray($array)
 	{
-		return array('protection' => $array);
+		return ['protection' => $array];
 	}
 
     /**
@@ -152,7 +152,7 @@ class PHPExcel_Style_Protection extends PHPExcel_Style_Supervisor implements PHP
      */
     public function setLocked($pValue = self::PROTECTION_INHERIT) {
 		if ($this->_isSupervisor) {
-			$styleArray = $this->getStyleArray(array('locked' => $pValue));
+			$styleArray = $this->getStyleArray(['locked' => $pValue]);
 			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_locked = $pValue;
@@ -180,7 +180,7 @@ class PHPExcel_Style_Protection extends PHPExcel_Style_Supervisor implements PHP
      */
     public function setHidden($pValue = self::PROTECTION_INHERIT) {
 		if ($this->_isSupervisor) {
-			$styleArray = $this->getStyleArray(array('hidden' => $pValue));
+			$styleArray = $this->getStyleArray(['hidden' => $pValue]);
 			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_hidden = $pValue;
@@ -200,7 +200,7 @@ class PHPExcel_Style_Protection extends PHPExcel_Style_Supervisor implements PHP
     	return md5(
     		  $this->_locked
     		. $this->_hidden
-    		. __CLASS__
+    		. self::class
     	);
     }
 

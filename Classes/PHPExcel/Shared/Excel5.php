@@ -56,14 +56,14 @@ class PHPExcel_Shared_Excel5
 			// then we have column dimension with explicit width
 			$columnDimension = $columnDimensions[$col];
 			$width = $columnDimension->getWidth();
-			$pixelWidth = PHPExcel_Shared_Drawing::cellDimensionToPixels($width, $font);
+			$pixelWidth = PHPExcel_Shared_Drawing::cellDimensionToPixels($font, $width);
 
 		} else if ($sheet->getDefaultColumnDimension()->getWidth() != -1) {
 
 			// then we have default column dimension with explicit width
 			$defaultColumnDimension = $sheet->getDefaultColumnDimension();
 			$width = $defaultColumnDimension->getWidth();
-			$pixelWidth = PHPExcel_Shared_Drawing::cellDimensionToPixels($width, $font);
+			$pixelWidth = PHPExcel_Shared_Drawing::cellDimensionToPixels($font, $width);
 
 		} else {
 
@@ -131,17 +131,16 @@ class PHPExcel_Shared_Excel5
 	}
 
 	/**
-	 * Get the horizontal distance in pixels between two anchors
-	 * The distanceX is found as sum of all the spanning columns widths minus correction for the two offsets
-	 *
-	 * @param PHPExcel_Worksheet $sheet
-	 * @param string $startColumn
-	 * @param integer $startOffsetX Offset within start cell measured in 1/1024 of the cell width
-	 * @param string $endColumn
-	 * @param integer $endOffsetX Offset within end cell measured in 1/1024 of the cell width
-	 * @return integer Horizontal measured in pixels
-	 */
-	public static function getDistanceX(PHPExcel_Worksheet $sheet, $startColumn = 'A', $startOffsetX = 0, $endColumn = 'A', $endOffsetX = 0)
+  * Get the horizontal distance in pixels between two anchors
+  * The distanceX is found as sum of all the spanning columns widths minus correction for the two offsets
+  *
+  * @param string $startColumn
+  * @param integer $startOffsetX Offset within start cell measured in 1/1024 of the cell width
+  * @param string $endColumn
+  * @param integer $endOffsetX Offset within end cell measured in 1/1024 of the cell width
+  * @return integer Horizontal measured in pixels
+  */
+ public static function getDistanceX(PHPExcel_Worksheet $sheet, $startColumn = 'A', $startOffsetX = 0, $endColumn = 'A', $endOffsetX = 0)
 	{
 		$distanceX = 0;
 
@@ -162,17 +161,16 @@ class PHPExcel_Shared_Excel5
 	}
 
 	/**
-	 * Get the vertical distance in pixels between two anchors
-	 * The distanceY is found as sum of all the spanning rows minus two offsets
-	 *
-	 * @param PHPExcel_Worksheet $sheet
-	 * @param integer $startRow (1-based)
-	 * @param integer $startOffsetY Offset within start cell measured in 1/256 of the cell height
-	 * @param integer $endRow (1-based)
-	 * @param integer $endOffsetY Offset within end cell measured in 1/256 of the cell height
-	 * @return integer Vertical distance measured in pixels
-	 */
-	public static function getDistanceY(PHPExcel_Worksheet $sheet, $startRow = 1, $startOffsetY = 0, $endRow = 1, $endOffsetY = 0)
+  * Get the vertical distance in pixels between two anchors
+  * The distanceY is found as sum of all the spanning rows minus two offsets
+  *
+  * @param integer $startRow (1-based)
+  * @param integer $startOffsetY Offset within start cell measured in 1/256 of the cell height
+  * @param integer $endRow (1-based)
+  * @param integer $endOffsetY Offset within end cell measured in 1/256 of the cell height
+  * @return integer Vertical distance measured in pixels
+  */
+ public static function getDistanceY(PHPExcel_Worksheet $sheet, $startRow = 1, $startOffsetY = 0, $endRow = 1, $endOffsetY = 0)
 	{
 		$distanceY = 0;
 
@@ -244,7 +242,7 @@ class PHPExcel_Shared_Excel5
 	 */
 	public static function oneAnchor2twoAnchor($sheet, $coordinates, $offsetX, $offsetY, $width, $height)
 	{
-		list($column, $row) = PHPExcel_Cell::coordinateFromString($coordinates);
+		[$column, $row] = PHPExcel_Cell::coordinateFromString($coordinates);
 		$col_start = PHPExcel_Cell::columnIndexFromString($column) - 1;
 		$row_start = $row - 1;
 
@@ -302,14 +300,7 @@ class PHPExcel_Shared_Excel5
 		$startCoordinates = PHPExcel_Cell::stringFromColumnIndex($col_start) . ($row_start + 1);
 		$endCoordinates = PHPExcel_Cell::stringFromColumnIndex($col_end) . ($row_end + 1);
 
-		$twoAnchor = array(
-			'startCoordinates' => $startCoordinates,
-			'startOffsetX' => $x1,
-			'startOffsetY' => $y1,
-			'endCoordinates' => $endCoordinates,
-			'endOffsetX' => $x2,
-			'endOffsetY' => $y2,
-		);
+		$twoAnchor = ['startCoordinates' => $startCoordinates, 'startOffsetX' => $x1, 'startOffsetY' => $y1, 'endCoordinates' => $endCoordinates, 'endOffsetX' => $x2, 'endOffsetY' => $y2];
 
 		return  $twoAnchor;
 	}

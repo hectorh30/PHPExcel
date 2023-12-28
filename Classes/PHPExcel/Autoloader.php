@@ -55,7 +55,7 @@ class PHPExcel_Autoloader
             spl_autoload_register('__autoload');
         }
         //    Register ourselves with SPL
-        return spl_autoload_register(array('PHPExcel_Autoloader', 'Load'));
+        return spl_autoload_register(['PHPExcel_Autoloader', 'Load']);
     }   //    function Register()
 
 
@@ -65,7 +65,7 @@ class PHPExcel_Autoloader
      * @param    string    $pClassName        Name of the object to load
      */
     public static function Load($pClassName){
-        if ((class_exists($pClassName,FALSE)) || (strpos($pClassName, 'PHPExcel') !== 0)) {
+        if ((class_exists($pClassName,FALSE)) || (!str_starts_with($pClassName, 'PHPExcel'))) {
             //    Either already loaded, or not a PHPExcel class request
             return FALSE;
         }

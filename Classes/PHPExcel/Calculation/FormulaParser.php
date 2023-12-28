@@ -58,22 +58,22 @@ PARTLY BASED ON:
  */
 class PHPExcel_Calculation_FormulaParser {
 	/* Character constants */
-	const QUOTE_DOUBLE  = '"';
-	const QUOTE_SINGLE  = '\'';
-	const BRACKET_CLOSE = ']';
-	const BRACKET_OPEN  = '[';
-	const BRACE_OPEN    = '{';
-	const BRACE_CLOSE   = '}';
-	const PAREN_OPEN    = '(';
-	const PAREN_CLOSE   = ')';
-	const SEMICOLON     = ';';
-	const WHITESPACE    = ' ';
-	const COMMA         = ',';
-	const ERROR_START   = '#';
+	final public const QUOTE_DOUBLE  = '"';
+	final public const QUOTE_SINGLE  = '\'';
+	final public const BRACKET_CLOSE = ']';
+	final public const BRACKET_OPEN  = '[';
+	final public const BRACE_OPEN    = '{';
+	final public const BRACE_CLOSE   = '}';
+	final public const PAREN_OPEN    = '(';
+	final public const PAREN_CLOSE   = ')';
+	final public const SEMICOLON     = ';';
+	final public const WHITESPACE    = ' ';
+	final public const COMMA         = ',';
+	final public const ERROR_START   = '#';
 
-	const OPERATORS_SN 			= "+-";
-	const OPERATORS_INFIX 		= "+-*/^&=><";
-	const OPERATORS_POSTFIX 	= "%";
+	final public const OPERATORS_SN 			= "+-";
+	final public const OPERATORS_INFIX 		= "+-*/^&=><";
+	final public const OPERATORS_POSTFIX 	= "%";
 
 	/**
 	 * Formula
@@ -87,7 +87,7 @@ class PHPExcel_Calculation_FormulaParser {
 	 *
 	 * @var PHPExcel_Calculation_FormulaToken[]
 	 */
-	private $_tokens = array();
+	private $_tokens = [];
 
     /**
      * Create a new PHPExcel_Calculation_FormulaParser
@@ -162,15 +162,15 @@ class PHPExcel_Calculation_FormulaParser {
 		if ($formulaLength < 2 || $this->_formula[0] != '=') return;
 
 		// Helper variables
-		$tokens1	= $tokens2 	= $stack = array();
+		$tokens1	= $tokens2 	= $stack = [];
 		$inString	= $inPath 	= $inRange 	= $inError = false;
 		$token		= $previousToken	= $nextToken	= null;
 
 		$index	= 1;
 		$value	= '';
 
-		$ERRORS 			= array("#NULL!", "#DIV/0!", "#VALUE!", "#REF!", "#NAME?", "#NUM!", "#N/A");
-		$COMPARATORS_MULTI 	= array(">=", "<=", "<>");
+		$ERRORS 			= ["#NULL!", "#DIV/0!", "#VALUE!", "#REF!", "#NAME?", "#NUM!", "#N/A"];
+		$COMPARATORS_MULTI 	= [">=", "<=", "<>"];
 
 		while ($index < $formulaLength) {
 			// state-dependent character evaluation (order is important)
@@ -239,7 +239,7 @@ class PHPExcel_Calculation_FormulaParser {
 			}
 
 			// scientific notation check
-			if (strpos(PHPExcel_Calculation_FormulaParser::OPERATORS_SN, $this->_formula[$index]) !== false) {
+			if (str_contains(PHPExcel_Calculation_FormulaParser::OPERATORS_SN, $this->_formula[$index])) {
 				if (strlen($value) > 1) {
 					if (preg_match("/^[1-9][1](\.[0-9]+)?E[1]$/", $this->_formula[$index]) != 0) {
 						$value .= $this->_formula[$index];
@@ -379,7 +379,7 @@ class PHPExcel_Calculation_FormulaParser {
 			}
 
 			// standard infix operators
-			if (strpos(PHPExcel_Calculation_FormulaParser::OPERATORS_INFIX, $this->_formula[$index]) !== false) {
+			if (str_contains(PHPExcel_Calculation_FormulaParser::OPERATORS_INFIX, $this->_formula[$index])) {
 				if (strlen($value) > 0) {
 					$tokens1[] =new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERAND);
 					$value = "";
@@ -390,7 +390,7 @@ class PHPExcel_Calculation_FormulaParser {
 			}
 
 			// standard postfix operators (only one)
-			if (strpos(PHPExcel_Calculation_FormulaParser::OPERATORS_POSTFIX, $this->_formula[$index]) !== false) {
+			if (str_contains(PHPExcel_Calculation_FormulaParser::OPERATORS_POSTFIX, $this->_formula[$index])) {
 				if (strlen($value) > 0) {
 					$tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERAND);
 					$value = "";
@@ -516,7 +516,7 @@ class PHPExcel_Calculation_FormulaParser {
 
 		// move tokens to final list, switching infix "-" operators to prefix when appropriate, switching infix "+" operators
 		// to noop when appropriate, identifying operand and infix-operator subtypes, and pulling "@" from function names
-		$this->_tokens = array();
+		$this->_tokens = [];
 
 		$tokenCount = count($tokens2);
 		for ($i = 0; $i < $tokenCount; ++$i) {
@@ -573,7 +573,7 @@ class PHPExcel_Calculation_FormulaParser {
 			}
 
 			if ($token->getTokenType() == PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERATORINFIX && $token->getTokenSubType() == PHPExcel_Calculation_FormulaToken::TOKEN_SUBTYPE_NOTHING) {
-				if (strpos("<>=", substr($token->getValue(), 0, 1)) !== false) {
+				if (str_contains("<>=", substr($token->getValue(), 0, 1))) {
 					$token->setTokenSubType(PHPExcel_Calculation_FormulaToken::TOKEN_SUBTYPE_LOGICAL);
 				} else if ($token->getValue() == "&") {
 					$token->setTokenSubType(PHPExcel_Calculation_FormulaToken::TOKEN_SUBTYPE_CONCATENATION);
@@ -602,7 +602,7 @@ class PHPExcel_Calculation_FormulaParser {
 
 			if ($token->getTokenType() == PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_FUNCTION) {
 				if (strlen($token->getValue() > 0)) {
-					if (substr($token->getValue(), 0, 1) == "@") {
+					if (str_starts_with($token->getValue(), "@")) {
 						$token->setValue(substr($token->getValue(), 1));
 					}
 				}

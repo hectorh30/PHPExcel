@@ -36,17 +36,17 @@
  */
 class PHPExcel_CachedObjectStorageFactory
 {
-    const cache_in_memory               = 'Memory';
-    const cache_in_memory_gzip          = 'MemoryGZip';
-    const cache_in_memory_serialized    = 'MemorySerialized';
-    const cache_igbinary                = 'Igbinary';
-    const cache_to_discISAM             = 'DiscISAM';
-    const cache_to_apc                  = 'APC';
-    const cache_to_memcache             = 'Memcache';
-    const cache_to_phpTemp              = 'PHPTemp';
-    const cache_to_wincache             = 'Wincache';
-    const cache_to_sqlite               = 'SQLite';
-    const cache_to_sqlite3              = 'SQLite3';
+    final public const cache_in_memory               = 'Memory';
+    final public const cache_in_memory_gzip          = 'MemoryGZip';
+    final public const cache_in_memory_serialized    = 'MemorySerialized';
+    final public const cache_igbinary                = 'Igbinary';
+    final public const cache_to_discISAM             = 'DiscISAM';
+    final public const cache_to_apc                  = 'APC';
+    final public const cache_to_memcache             = 'Memcache';
+    final public const cache_to_phpTemp              = 'PHPTemp';
+    final public const cache_to_wincache             = 'Wincache';
+    final public const cache_to_sqlite               = 'SQLite';
+    final public const cache_to_sqlite3              = 'SQLite3';
 
 
     /**
@@ -69,19 +69,7 @@ class PHPExcel_CachedObjectStorageFactory
      *
      * @var string[]
      */
-    private static $_storageMethods = array(
-        self::cache_in_memory,
-        self::cache_in_memory_gzip,
-        self::cache_in_memory_serialized,
-        self::cache_igbinary,
-        self::cache_to_phpTemp,
-        self::cache_to_discISAM,
-        self::cache_to_apc,
-        self::cache_to_memcache,
-        self::cache_to_wincache,
-        self::cache_to_sqlite,
-        self::cache_to_sqlite3,
-    );
+    private static $_storageMethods = [self::cache_in_memory, self::cache_in_memory_gzip, self::cache_in_memory_serialized, self::cache_igbinary, self::cache_to_phpTemp, self::cache_to_discISAM, self::cache_to_apc, self::cache_to_memcache, self::cache_to_wincache, self::cache_to_sqlite, self::cache_to_sqlite3];
 
 
     /**
@@ -89,32 +77,7 @@ class PHPExcel_CachedObjectStorageFactory
      *
      * @var array of mixed array
      */
-    private static $_storageMethodDefaultParameters = array(
-        self::cache_in_memory               => array(
-                                                    ),
-        self::cache_in_memory_gzip          => array(
-                                                    ),
-        self::cache_in_memory_serialized    => array(
-                                                    ),
-        self::cache_igbinary                => array(
-                                                    ),
-        self::cache_to_phpTemp              => array( 'memoryCacheSize' => '1MB'
-                                                    ),
-        self::cache_to_discISAM             => array( 'dir'             => NULL
-                                                    ),
-        self::cache_to_apc                  => array( 'cacheTime'       => 600
-                                                    ),
-        self::cache_to_memcache             => array( 'memcacheServer'  => 'localhost',
-                                                      'memcachePort'    => 11211,
-                                                      'cacheTime'       => 600
-                                                    ),
-        self::cache_to_wincache             => array( 'cacheTime'       => 600
-                                                    ),
-        self::cache_to_sqlite               => array(
-                                                    ),
-        self::cache_to_sqlite3              => array(
-                                                    ),
-    );
+    private static $_storageMethodDefaultParameters = [self::cache_in_memory               => [], self::cache_in_memory_gzip          => [], self::cache_in_memory_serialized    => [], self::cache_igbinary                => [], self::cache_to_phpTemp              => ['memoryCacheSize' => '1MB'], self::cache_to_discISAM             => ['dir'             => NULL], self::cache_to_apc                  => ['cacheTime'       => 600], self::cache_to_memcache             => ['memcacheServer'  => 'localhost', 'memcachePort'    => 11211, 'cacheTime'       => 600], self::cache_to_wincache             => ['cacheTime'       => 600], self::cache_to_sqlite               => [], self::cache_to_sqlite3              => []];
 
 
     /**
@@ -122,7 +85,7 @@ class PHPExcel_CachedObjectStorageFactory
      *
      * @var array of mixed array
      */
-    private static $_storageMethodParameters = array();
+    private static $_storageMethodParameters = [];
 
 
     /**
@@ -165,10 +128,10 @@ class PHPExcel_CachedObjectStorageFactory
      **/
     public static function getCacheStorageMethods()
     {
-        $activeMethods = array();
+        $activeMethods = [];
         foreach(self::$_storageMethods as $storageMethod) {
             $cacheStorageClass = 'PHPExcel_CachedObjectStorage_' . $storageMethod;
-            if (call_user_func(array($cacheStorageClass, 'cacheMethodIsAvailable'))) {
+            if (call_user_func([$cacheStorageClass, 'cacheMethodIsAvailable'])) {
                 $activeMethods[] = $storageMethod;
             }
         }
@@ -184,15 +147,14 @@ class PHPExcel_CachedObjectStorageFactory
      *                                        when instantiating
      * @return boolean
      **/
-    public static function initialize($method = self::cache_in_memory, $arguments = array())
+    public static function initialize($method = self::cache_in_memory, $arguments = [])
     {
         if (!in_array($method,self::$_storageMethods)) {
             return FALSE;
         }
 
         $cacheStorageClass = 'PHPExcel_CachedObjectStorage_'.$method;
-        if (!call_user_func(array( $cacheStorageClass,
-                                   'cacheMethodIsAvailable'))) {
+        if (!call_user_func([$cacheStorageClass, 'cacheMethodIsAvailable'])) {
             return FALSE;
         }
 
@@ -245,7 +207,7 @@ class PHPExcel_CachedObjectStorageFactory
 	{
 		self::$_cacheStorageMethod = NULL;
 		self::$_cacheStorageClass = NULL;
-		self::$_storageMethodParameters = array();
+		self::$_storageMethodParameters = [];
 	}
 
 }

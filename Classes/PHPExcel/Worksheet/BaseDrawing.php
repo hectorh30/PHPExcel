@@ -210,7 +210,6 @@ class PHPExcel_Worksheet_BaseDrawing implements PHPExcel_IComparable
     /**
      * Set Worksheet
      *
-     * @param 	PHPExcel_Worksheet 	$pValue
      * @param 	bool				$pOverrideOld	If a Worksheet has already been assigned, overwrite it and remove image from old Worksheet?
      * @throws 	PHPExcel_Exception
      * @return PHPExcel_Worksheet_BaseDrawing
@@ -439,7 +438,6 @@ class PHPExcel_Worksheet_BaseDrawing implements PHPExcel_IComparable
     /**
      * Set Shadow
      *
-     * @param 	PHPExcel_Worksheet_Drawing_Shadow $pValue
      * @throws 	PHPExcel_Exception
      * @return PHPExcel_Worksheet_BaseDrawing
      */
@@ -465,7 +463,7 @@ class PHPExcel_Worksheet_BaseDrawing implements PHPExcel_IComparable
     		. $this->_height
     		. $this->_rotation
     		. $this->_shadow->getHashCode()
-    		. __CLASS__
+    		. self::class
     	);
     }
 

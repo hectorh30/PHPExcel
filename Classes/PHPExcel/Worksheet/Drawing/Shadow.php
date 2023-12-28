@@ -36,14 +36,14 @@
 class PHPExcel_Worksheet_Drawing_Shadow implements PHPExcel_IComparable
 {
 	/* Shadow alignment */
-	const SHADOW_BOTTOM							= 'b';
-	const SHADOW_BOTTOM_LEFT					= 'bl';
-	const SHADOW_BOTTOM_RIGHT					= 'br';
-	const SHADOW_CENTER							= 'ctr';
-	const SHADOW_LEFT							= 'l';
-	const SHADOW_TOP							= 't';
-	const SHADOW_TOP_LEFT						= 'tl';
-	const SHADOW_TOP_RIGHT						= 'tr';
+	final public const SHADOW_BOTTOM							= 'b';
+	final public const SHADOW_BOTTOM_LEFT					= 'bl';
+	final public const SHADOW_BOTTOM_RIGHT					= 'br';
+	final public const SHADOW_CENTER							= 'ctr';
+	final public const SHADOW_LEFT							= 'l';
+	final public const SHADOW_TOP							= 't';
+	final public const SHADOW_TOP_LEFT						= 'tl';
+	final public const SHADOW_TOP_RIGHT						= 'tr';
 
 	/**
 	 * Visible
@@ -225,7 +225,6 @@ class PHPExcel_Worksheet_Drawing_Shadow implements PHPExcel_IComparable
     /**
      * Set Color
      *
-     * @param 	PHPExcel_Style_Color $pValue
      * @throws 	PHPExcel_Exception
      * @return PHPExcel_Worksheet_Drawing_Shadow
      */
@@ -268,7 +267,7 @@ class PHPExcel_Worksheet_Drawing_Shadow implements PHPExcel_IComparable
     		. $this->_alignment
     		. $this->_color->getHashCode()
     		. $this->_alpha
-    		. __CLASS__
+    		. self::class
     	);
     }
 

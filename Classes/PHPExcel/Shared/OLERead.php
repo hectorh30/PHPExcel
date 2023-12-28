@@ -32,33 +32,33 @@ class PHPExcel_Shared_OLERead {
 	private $data = '';
 
 	// OLE identifier
-	const IDENTIFIER_OLE = IDENTIFIER_OLE;
+	final public const IDENTIFIER_OLE = IDENTIFIER_OLE;
 
 	// Size of a sector = 512 bytes
-	const BIG_BLOCK_SIZE					= 0x200;
+	final public const BIG_BLOCK_SIZE					= 0x200;
 
 	// Size of a short sector = 64 bytes
-	const SMALL_BLOCK_SIZE					= 0x40;
+	final public const SMALL_BLOCK_SIZE					= 0x40;
 
 	// Size of a directory entry always = 128 bytes
-	const PROPERTY_STORAGE_BLOCK_SIZE		= 0x80;
+	final public const PROPERTY_STORAGE_BLOCK_SIZE		= 0x80;
 
 	// Minimum size of a standard stream = 4096 bytes, streams smaller than this are stored as short streams
-	const SMALL_BLOCK_THRESHOLD				= 0x1000;
+	final public const SMALL_BLOCK_THRESHOLD				= 0x1000;
 
 	// header offsets
-	const NUM_BIG_BLOCK_DEPOT_BLOCKS_POS	= 0x2c;
-	const ROOT_START_BLOCK_POS				= 0x30;
-	const SMALL_BLOCK_DEPOT_BLOCK_POS		= 0x3c;
-	const EXTENSION_BLOCK_POS				= 0x44;
-	const NUM_EXTENSION_BLOCK_POS			= 0x48;
-	const BIG_BLOCK_DEPOT_BLOCKS_POS		= 0x4c;
+	final public const NUM_BIG_BLOCK_DEPOT_BLOCKS_POS	= 0x2c;
+	final public const ROOT_START_BLOCK_POS				= 0x30;
+	final public const SMALL_BLOCK_DEPOT_BLOCK_POS		= 0x3c;
+	final public const EXTENSION_BLOCK_POS				= 0x44;
+	final public const NUM_EXTENSION_BLOCK_POS			= 0x48;
+	final public const BIG_BLOCK_DEPOT_BLOCKS_POS		= 0x4c;
 
 	// property storage offsets (directory offsets)
-	const SIZE_OF_NAME_POS					= 0x40;
-	const TYPE_POS							= 0x42;
-	const START_BLOCK_POS					= 0x74;
-	const SIZE_POS							= 0x78;
+	final public const SIZE_OF_NAME_POS					= 0x40;
+	final public const TYPE_POS							= 0x42;
+	final public const START_BLOCK_POS					= 0x74;
+	final public const SIZE_POS							= 0x78;
 
 
 
@@ -107,7 +107,7 @@ class PHPExcel_Shared_OLERead {
 		// Total number of sectors used by MSAT
 		$this->numExtensionBlocks = self::_GetInt4d($this->data, self::NUM_EXTENSION_BLOCK_POS);
 
-		$bigBlockDepotBlocks = array();
+		$bigBlockDepotBlocks = [];
 		$pos = self::BIG_BLOCK_DEPOT_BLOCKS_POS;
 
 		$bbdBlocks = $this->numBigBlockDepotBlocks;
@@ -203,7 +203,7 @@ class PHPExcel_Shared_OLERead {
 
 			while ($block != -2) {
 				$pos = ($block + 1) * self::BIG_BLOCK_SIZE;
-				$streamData .= substr($this->data, $pos, self::BIG_BLOCK_SIZE);
+				$streamData .= substr((string) $this->data, $pos, self::BIG_BLOCK_SIZE);
 				$block = self::_GetInt4d($this->bigBlockChain, $block*4);
 			}
 
@@ -224,7 +224,7 @@ class PHPExcel_Shared_OLERead {
 
 		while ($block != -2)  {
 			$pos = ($block + 1) * self::BIG_BLOCK_SIZE;
-			$data .= substr($this->data, $pos, self::BIG_BLOCK_SIZE);
+			$data .= substr((string) $this->data, $pos, self::BIG_BLOCK_SIZE);
 			$block = self::_GetInt4d($this->bigBlockChain, $block*4);
 		}
 		return $data;
@@ -237,10 +237,10 @@ class PHPExcel_Shared_OLERead {
 		$offset = 0;
 
 		// loop through entires, each entry is 128 bytes
-		$entryLen = strlen($this->entry);
+		$entryLen = strlen((string) $this->entry);
 		while ($offset < $entryLen) {
 			// entry data (128 bytes)
-			$d = substr($this->entry, $offset, self::PROPERTY_STORAGE_BLOCK_SIZE);
+			$d = substr((string) $this->entry, $offset, self::PROPERTY_STORAGE_BLOCK_SIZE);
 
 			// size in bytes of name
 			$nameSize = ord($d[self::SIZE_OF_NAME_POS]) | (ord($d[self::SIZE_OF_NAME_POS+1]) << 8);
@@ -257,11 +257,7 @@ class PHPExcel_Shared_OLERead {
 			$name = str_replace("\x00", "", substr($d,0,$nameSize));
 
 
-			$this->props[] = array (
-				'name' => $name,
-				'type' => $type,
-				'startBlock' => $startBlock,
-				'size' => $size);
+			$this->props[] = ['name' => $name, 'type' => $type, 'startBlock' => $startBlock, 'size' => $size];
 
 			// tmp helper to simplify checks
 			$upName = strtoupper($name);

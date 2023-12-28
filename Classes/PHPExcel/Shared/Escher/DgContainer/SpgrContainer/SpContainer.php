@@ -219,12 +219,11 @@ class PHPExcel_Shared_Escher_DgContainer_SpgrContainer_SpContainer
 	}
 
 	/**
-	 * Set an option for the Shape Group Container
-	 *
-	 * @param int $property The number specifies the option
-	 * @param mixed $value
-	 */
-	public function setOPT($property, $value)
+  * Set an option for the Shape Group Container
+  *
+  * @param int $property The number specifies the option
+  */
+ public function setOPT($property, mixed $value)
 	{
 		$this->_OPT[$property] = $value;
 	}
@@ -237,10 +236,7 @@ class PHPExcel_Shared_Escher_DgContainer_SpgrContainer_SpContainer
 	 */
 	public function getOPT($property)
 	{
-		if (isset($this->_OPT[$property])) {
-			return $this->_OPT[$property];
-		}
-		return null;
+		return $this->_OPT[$property] ?? null;
 	}
 
 	/**

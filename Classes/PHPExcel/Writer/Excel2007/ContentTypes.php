@@ -36,14 +36,13 @@
 class PHPExcel_Writer_Excel2007_ContentTypes extends PHPExcel_Writer_Excel2007_WriterPart
 {
 	/**
-	 * Write content types to XML format
-	 *
-	 * @param 	PHPExcel	$pPHPExcel
-	 * @param	boolean		$includeCharts	Flag indicating if we should include drawing details for charts
-	 * @return 	string 						XML Output
-	 * @throws 	PHPExcel_Writer_Exception
-	 */
-	public function writeContentTypes(PHPExcel $pPHPExcel = null, $includeCharts = FALSE)
+  * Write content types to XML format
+  *
+  * @param	boolean		$includeCharts	Flag indicating if we should include drawing details for charts
+  * @return 	string 						XML Output
+  * @throws 	PHPExcel_Writer_Exception
+  */
+ public function writeContentTypes(PHPExcel $pPHPExcel = null, $includeCharts = FALSE)
 	{
 		// Create XML writer
 		$objWriter = null;
@@ -170,7 +169,7 @@ class PHPExcel_Writer_Excel2007_ContentTypes extends PHPExcel_Writer_Excel2007_W
 			}
 
 			// Add media content-types
-			$aMediaContentTypes = array();
+			$aMediaContentTypes = [];
 			$mediaCount = $this->getParentWriter()->getDrawingHashTable()->count();
 			for ($i = 0; $i < $mediaCount; ++$i) {
 				$extension 	= '';

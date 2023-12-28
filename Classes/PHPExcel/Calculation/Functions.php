@@ -31,7 +31,7 @@ if (!defined('PHPEXCEL_ROOT')) {
 	/**
 	 * @ignore
 	 */
-	define('PHPEXCEL_ROOT', dirname(__FILE__) . '/../../');
+	define('PHPEXCEL_ROOT', __DIR__ . '/../../');
 	require(PHPEXCEL_ROOT . 'PHPExcel/Autoloader.php');
 }
 
@@ -59,13 +59,13 @@ define('PRECISION', 8.88E-016);
 class PHPExcel_Calculation_Functions {
 
 	/** constants */
-	const COMPATIBILITY_EXCEL		= 'Excel';
-	const COMPATIBILITY_GNUMERIC	= 'Gnumeric';
-	const COMPATIBILITY_OPENOFFICE	= 'OpenOfficeCalc';
+	final public const COMPATIBILITY_EXCEL		= 'Excel';
+	final public const COMPATIBILITY_GNUMERIC	= 'Gnumeric';
+	final public const COMPATIBILITY_OPENOFFICE	= 'OpenOfficeCalc';
 
-	const RETURNDATE_PHP_NUMERIC	= 'P';
-	const RETURNDATE_PHP_OBJECT		= 'O';
-	const RETURNDATE_EXCEL			= 'E';
+	final public const RETURNDATE_PHP_NUMERIC	= 'P';
+	final public const RETURNDATE_PHP_OBJECT		= 'O';
+	final public const RETURNDATE_EXCEL			= 'E';
 
 
 	/**
@@ -90,15 +90,7 @@ class PHPExcel_Calculation_Functions {
 	 * @access	private
 	 * @var array
 	 */
-	protected static $_errorCodes	= array( 'null'				=> '#NULL!',
-											 'divisionbyzero'	=> '#DIV/0!',
-											 'value'			=> '#VALUE!',
-											 'reference'		=> '#REF!',
-											 'name'				=> '#NAME?',
-											 'num'				=> '#NUM!',
-											 'na'				=> '#N/A',
-											 'gettingdata'		=> '#GETTING_DATA'
-										   );
+	protected static $_errorCodes	= ['null'				=> '#NULL!', 'divisionbyzero'	=> '#DIV/0!', 'value'			=> '#VALUE!', 'reference'		=> '#REF!', 'name'				=> '#NAME?', 'num'				=> '#NUM!', 'na'				=> '#N/A', 'gettingdata'		=> '#GETTING_DATA'];
 
 
 	/**
@@ -292,17 +284,17 @@ class PHPExcel_Calculation_Functions {
 
 
 	public static function isMatrixValue($idx) {
-		return ((substr_count($idx,'.') <= 1) || (preg_match('/\.[A-Z]/',$idx) > 0));
+		return ((substr_count((string) $idx,'.') <= 1) || (preg_match('/\.[A-Z]/',(string) $idx) > 0));
 	}
 
 
 	public static function isValue($idx) {
-		return (substr_count($idx,'.') == 0);
+		return (substr_count((string) $idx,'.') == 0);
 	}
 
 
 	public static function isCellValue($idx) {
-		return (substr_count($idx,'.') > 1);
+		return (substr_count((string) $idx,'.') > 1);
 	}
 
 
@@ -310,12 +302,12 @@ class PHPExcel_Calculation_Functions {
 		$condition	= PHPExcel_Calculation_Functions::flattenSingleValue($condition);
 		if (!isset($condition[0]))
 			$condition = '=""';
-		if (!in_array($condition[0],array('>', '<', '='))) {
+		if (!in_array($condition[0],['>', '<', '='])) {
 			if (!is_numeric($condition)) { $condition = PHPExcel_Calculation::_wrapResult(strtoupper($condition)); }
 			return '='.$condition;
 		} else {
-			preg_match('/([<>=]+)(.*)/',$condition,$matches);
-			list(,$operator,$operand) = $matches;
+			preg_match('/([<>=]+)(.*)/',(string) $condition,$matches);
+			[, $operator, $operand] = $matches;
 
 			if (!is_numeric($operand)) {
 				$operand = str_replace('"', '""', $operand);
@@ -333,7 +325,7 @@ class PHPExcel_Calculation_Functions {
 	 * @param	mixed	$value	Value to check
 	 * @return	boolean
 	 */
-	public static function ERROR_TYPE($value = '') {
+	public static function ERROR_TYPE(mixed $value = '') {
 		$value	= self::flattenSingleValue($value);
 
 		$i = 1;
@@ -353,7 +345,7 @@ class PHPExcel_Calculation_Functions {
 	 * @param	mixed	$value	Value to check
 	 * @return	boolean
 	 */
-	public static function IS_BLANK($value = NULL) {
+	public static function IS_BLANK(mixed $value = NULL) {
 		if (!is_null($value)) {
 			$value	= self::flattenSingleValue($value);
 		}
@@ -368,7 +360,7 @@ class PHPExcel_Calculation_Functions {
 	 * @param	mixed	$value	Value to check
 	 * @return	boolean
 	 */
-	public static function IS_ERR($value = '') {
+	public static function IS_ERR(mixed $value = '') {
 		$value		= self::flattenSingleValue($value);
 
 		return self::IS_ERROR($value) && (!self::IS_NA($value));
@@ -381,7 +373,7 @@ class PHPExcel_Calculation_Functions {
 	 * @param	mixed	$value	Value to check
 	 * @return	boolean
 	 */
-	public static function IS_ERROR($value = '') {
+	public static function IS_ERROR(mixed $value = '') {
 		$value		= self::flattenSingleValue($value);
 
 		if (!is_string($value))
@@ -396,7 +388,7 @@ class PHPExcel_Calculation_Functions {
 	 * @param	mixed	$value	Value to check
 	 * @return	boolean
 	 */
-	public static function IS_NA($value = '') {
+	public static function IS_NA(mixed $value = '') {
 		$value		= self::flattenSingleValue($value);
 
 		return ($value === self::NA());
@@ -409,7 +401,7 @@ class PHPExcel_Calculation_Functions {
 	 * @param	mixed	$value	Value to check
 	 * @return	boolean
 	 */
-	public static function IS_EVEN($value = NULL) {
+	public static function IS_EVEN(mixed $value = NULL) {
 		$value = self::flattenSingleValue($value);
 
 		if ($value === NULL)
@@ -426,7 +418,7 @@ class PHPExcel_Calculation_Functions {
 	 * @param	mixed	$value	Value to check
 	 * @return	boolean
 	 */
-	public static function IS_ODD($value = NULL) {
+	public static function IS_ODD(mixed $value = NULL) {
 		$value = self::flattenSingleValue($value);
 
 		if ($value === NULL)
@@ -443,7 +435,7 @@ class PHPExcel_Calculation_Functions {
 	 * @param	mixed	$value		Value to check
 	 * @return	boolean
 	 */
-	public static function IS_NUMBER($value = NULL) {
+	public static function IS_NUMBER(mixed $value = NULL) {
 		$value		= self::flattenSingleValue($value);
 
 		if (is_string($value)) {
@@ -459,7 +451,7 @@ class PHPExcel_Calculation_Functions {
 	 * @param	mixed	$value		Value to check
 	 * @return	boolean
 	 */
-	public static function IS_LOGICAL($value = NULL) {
+	public static function IS_LOGICAL(mixed $value = NULL) {
 		$value		= self::flattenSingleValue($value);
 
 		return is_bool($value);
@@ -472,7 +464,7 @@ class PHPExcel_Calculation_Functions {
 	 * @param	mixed	$value		Value to check
 	 * @return	boolean
 	 */
-	public static function IS_TEXT($value = NULL) {
+	public static function IS_TEXT(mixed $value = NULL) {
 		$value		= self::flattenSingleValue($value);
 
 		return (is_string($value) && !self::IS_ERROR($value));
@@ -485,7 +477,7 @@ class PHPExcel_Calculation_Functions {
 	 * @param	mixed	$value		Value to check
 	 * @return	boolean
 	 */
-	public static function IS_NONTEXT($value = NULL) {
+	public static function IS_NONTEXT(mixed $value = NULL) {
 		return !self::IS_TEXT($value);
 	}	//	function IS_NONTEXT()
 
@@ -600,7 +592,7 @@ class PHPExcel_Calculation_Functions {
 			return (array) $array;
 		}
 
-		$arrayValues = array();
+		$arrayValues = [];
 		foreach ($array as $value) {
 			if (is_array($value)) {
 				foreach ($value as $val) {
@@ -632,7 +624,7 @@ class PHPExcel_Calculation_Functions {
 			return (array) $array;
 		}
 
-		$arrayValues = array();
+		$arrayValues = [];
 		foreach ($array as $k1 => $value) {
 			if (is_array($value)) {
 				foreach ($value as $k2 => $val) {
@@ -659,7 +651,7 @@ class PHPExcel_Calculation_Functions {
 	 * @param	mixed		$value		Array or scalar value
 	 * @return	mixed
 	 */
-	public static function flattenSingleValue($value = '') {
+	public static function flattenSingleValue(mixed $value = '') {
 		while (is_array($value)) {
 			$value = array_pop($value);
 		}
@@ -702,7 +694,7 @@ if ((!function_exists('mb_str_replace')) &&
 	(function_exists('mb_substr')) && (function_exists('mb_strlen')) && (function_exists('mb_strpos'))) {
 	function mb_str_replace($search, $replace, $subject) {
 		if(is_array($subject)) {
-			$ret = array();
+			$ret = [];
 			foreach($subject as $key => $val) {
 				$ret[$key] = mb_str_replace($search, $replace, $val);
 			}
@@ -714,10 +706,10 @@ if ((!function_exists('mb_str_replace')) &&
 				continue;
 			}
 			$r = !is_array($replace) ? $replace : (array_key_exists($key, $replace) ? $replace[$key] : '');
-			$pos = mb_strpos($subject, $s, 0, 'UTF-8');
+			$pos = mb_strpos((string) $subject, (string) $s, 0, 'UTF-8');
 			while($pos !== false) {
 				$subject = mb_substr($subject, 0, $pos, 'UTF-8') . $r . mb_substr($subject, $pos + mb_strlen($s, 'UTF-8'), 65535, 'UTF-8');
-				$pos = mb_strpos($subject, $s, $pos + mb_strlen($r, 'UTF-8'), 'UTF-8');
+				$pos = mb_strpos($subject, (string) $s, $pos + mb_strlen($r, 'UTF-8'), 'UTF-8');
 			}
 		}
 		return $subject;

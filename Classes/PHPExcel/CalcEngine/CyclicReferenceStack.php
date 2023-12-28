@@ -40,7 +40,7 @@ class PHPExcel_CalcEngine_CyclicReferenceStack {
 	 *
 	 *  @var mixed[]
 	 */
-	private $_stack = array();
+	private $_stack = [];
 
 
 	/**
@@ -53,11 +53,9 @@ class PHPExcel_CalcEngine_CyclicReferenceStack {
 	}
 
 	/**
-	 * Push a new entry onto the stack
-	 *
-	 * @param  mixed  $value
-	 */
-	public function push($value) {
+  * Push a new entry onto the stack
+  */
+ public function push(mixed $value) {
 		$this->_stack[] = $value;
 	}	//	function push()
 
@@ -75,7 +73,7 @@ class PHPExcel_CalcEngine_CyclicReferenceStack {
 	 *
 	 * @param  mixed  $value  The value to test
 	 */
-	public function onStack($value) {
+	public function onStack(mixed $value) {
 		return in_array($value, $this->_stack);
 	}
 
@@ -83,7 +81,7 @@ class PHPExcel_CalcEngine_CyclicReferenceStack {
 	 * Clear the stack
 	 */
 	public function clear() {
-		$this->_stack = array();
+		$this->_stack = [];
 	}	//	function push()
 
 	/**

@@ -30,7 +30,7 @@ if (!defined('PHPEXCEL_ROOT')) {
     /**
      * @ignore
      */
-    define('PHPEXCEL_ROOT', dirname(__FILE__) . '/../');
+    define('PHPEXCEL_ROOT', __DIR__ . '/../');
     require(PHPEXCEL_ROOT . 'PHPExcel/Autoloader.php');
 }
 
@@ -39,27 +39,21 @@ class PHPExcel_Settings
 {
     /**    constants */
     /**    Available Zip library classes */
-    const PCLZIP        = 'PHPExcel_Shared_ZipArchive';
-    const ZIPARCHIVE    = 'ZipArchive';
+    final public const PCLZIP        = 'PHPExcel_Shared_ZipArchive';
+    final public const ZIPARCHIVE    = 'ZipArchive';
 
     /**    Optional Chart Rendering libraries */
-    const CHART_RENDERER_JPGRAPH    = 'jpgraph';
+    final public const CHART_RENDERER_JPGRAPH    = 'jpgraph';
 
     /**    Optional PDF Rendering libraries */
-    const PDF_RENDERER_TCPDF		= 'tcPDF';
-    const PDF_RENDERER_DOMPDF		= 'DomPDF';
-    const PDF_RENDERER_MPDF 		= 'mPDF';
+    final public const PDF_RENDERER_TCPDF		= 'tcPDF';
+    final public const PDF_RENDERER_DOMPDF		= 'DomPDF';
+    final public const PDF_RENDERER_MPDF 		= 'mPDF';
 
 
-    private static $_chartRenderers = array(
-        self::CHART_RENDERER_JPGRAPH,
-    );
+    private static $_chartRenderers = [self::CHART_RENDERER_JPGRAPH];
 
-    private static $_pdfRenderers = array(
-        self::PDF_RENDERER_TCPDF,
-        self::PDF_RENDERER_DOMPDF,
-        self::PDF_RENDERER_MPDF,
-    );
+    private static $_pdfRenderers = [self::PDF_RENDERER_TCPDF, self::PDF_RENDERER_DOMPDF, self::PDF_RENDERER_MPDF];
 
 
     /**
@@ -175,7 +169,7 @@ class PHPExcel_Settings
      */
     public static function setCacheStorageMethod(
     	$method = PHPExcel_CachedObjectStorageFactory::cache_in_memory,
-      $arguments = array()
+      $arguments = []
     )
     {
         return PHPExcel_CachedObjectStorageFactory::initialize($method, $arguments);

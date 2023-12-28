@@ -31,7 +31,7 @@ if (!defined('PHPEXCEL_ROOT')) {
     /**
      * @ignore
      */
-    define('PHPEXCEL_ROOT', dirname(__FILE__) . '/../../');
+    define('PHPEXCEL_ROOT', __DIR__ . '/../../');
     require(PHPEXCEL_ROOT . 'PHPExcel/Autoloader.php');
 }
 
@@ -69,10 +69,9 @@ class PHPExcel_Cell_DefaultValueBinder implements PHPExcel_Cell_IValueBinder
     /**
      * DataType for value
      *
-     * @param   mixed  $pValue
      * @return  string
      */
-    public static function dataTypeForValue($pValue = null) {
+    public static function dataTypeForValue(mixed $pValue = null) {
         // Match the value against a few data types
         if (is_null($pValue)) {
             return PHPExcel_Cell_DataType::TYPE_NULL;
@@ -83,7 +82,7 @@ class PHPExcel_Cell_DefaultValueBinder implements PHPExcel_Cell_IValueBinder
         } elseif ($pValue instanceof PHPExcel_RichText) {
             return PHPExcel_Cell_DataType::TYPE_INLINE;
 
-        } elseif ($pValue[0] === '=' && strlen($pValue) > 1) {
+        } elseif ($pValue[0] === '=' && strlen((string) $pValue) > 1) {
             return PHPExcel_Cell_DataType::TYPE_FORMULA;
 
         } elseif (is_bool($pValue)) {
@@ -92,7 +91,7 @@ class PHPExcel_Cell_DefaultValueBinder implements PHPExcel_Cell_IValueBinder
         } elseif (is_float($pValue) || is_int($pValue)) {
             return PHPExcel_Cell_DataType::TYPE_NUMERIC;
 
-        } elseif (preg_match('/^\-?([0-9]+\\.?[0-9]*|[0-9]*\\.?[0-9]+)$/', $pValue)) {
+        } elseif (preg_match('/^\-?([0-9]+\\.?[0-9]*|[0-9]*\\.?[0-9]+)$/', (string) $pValue)) {
             return PHPExcel_Cell_DataType::TYPE_NUMERIC;
 
         } elseif (is_string($pValue) && array_key_exists($pValue, PHPExcel_Cell_DataType::getErrorCodes())) {

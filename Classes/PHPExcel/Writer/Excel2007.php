@@ -58,7 +58,7 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
 	 *
 	 * @var PHPExcel_Writer_Excel2007_WriterPart[]
 	 */
-	private $_writerParts	= array();
+	private $_writerParts	= [];
 
 	/**
 	 * Private PHPExcel
@@ -72,7 +72,7 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
 	 *
 	 * @var string[]
 	 */
-	private $_stringTable	= array();
+	private $_stringTable	= [];
 
 	/**
 	 * Private unique PHPExcel_Style_Conditional HashTable
@@ -125,28 +125,13 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
 
     /**
      * Create a new PHPExcel_Writer_Excel2007
-     *
-	 * @param 	PHPExcel	$pPHPExcel
      */
     public function __construct(PHPExcel $pPHPExcel = null)
     {
     	// Assign PHPExcel
 		$this->setPHPExcel($pPHPExcel);
 
-    	$writerPartsArray = array(	'stringtable'	=> 'PHPExcel_Writer_Excel2007_StringTable',
-									'contenttypes'	=> 'PHPExcel_Writer_Excel2007_ContentTypes',
-									'docprops' 		=> 'PHPExcel_Writer_Excel2007_DocProps',
-									'rels'			=> 'PHPExcel_Writer_Excel2007_Rels',
-									'theme' 		=> 'PHPExcel_Writer_Excel2007_Theme',
-									'style' 		=> 'PHPExcel_Writer_Excel2007_Style',
-									'workbook' 		=> 'PHPExcel_Writer_Excel2007_Workbook',
-									'worksheet' 	=> 'PHPExcel_Writer_Excel2007_Worksheet',
-									'drawing' 		=> 'PHPExcel_Writer_Excel2007_Drawing',
-									'comments' 		=> 'PHPExcel_Writer_Excel2007_Comments',
-									'chart'			=> 'PHPExcel_Writer_Excel2007_Chart',
-									'relsvba'		=> 'PHPExcel_Writer_Excel2007_RelsVBA',
-									'relsribbonobjects' => 'PHPExcel_Writer_Excel2007_RelsRibbon'
-								 );
+    	$writerPartsArray = ['stringtable'	=> 'PHPExcel_Writer_Excel2007_StringTable', 'contenttypes'	=> 'PHPExcel_Writer_Excel2007_ContentTypes', 'docprops' 		=> 'PHPExcel_Writer_Excel2007_DocProps', 'rels'			=> 'PHPExcel_Writer_Excel2007_Rels', 'theme' 		=> 'PHPExcel_Writer_Excel2007_Theme', 'style' 		=> 'PHPExcel_Writer_Excel2007_Style', 'workbook' 		=> 'PHPExcel_Writer_Excel2007_Workbook', 'worksheet' 	=> 'PHPExcel_Writer_Excel2007_Worksheet', 'drawing' 		=> 'PHPExcel_Writer_Excel2007_Drawing', 'comments' 		=> 'PHPExcel_Writer_Excel2007_Comments', 'chart'			=> 'PHPExcel_Writer_Excel2007_Chart', 'relsvba'		=> 'PHPExcel_Writer_Excel2007_RelsVBA', 'relsribbonobjects' => 'PHPExcel_Writer_Excel2007_RelsRibbon'];
 
     	//	Initialise writer parts
 		//		and Assign their parent IWriters
@@ -154,10 +139,7 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
 			$this->_writerParts[$writer] = new $class($this);
 		}
 
-    	$hashTablesArray = array( '_stylesConditionalHashTable',	'_fillHashTable',		'_fontHashTable',
-								  '_bordersHashTable',				'_numFmtHashTable',		'_drawingHashTable',
-                                  '_styleHashTable'
-							    );
+    	$hashTablesArray = ['_stylesConditionalHashTable', '_fillHashTable', '_fontHashTable', '_bordersHashTable', '_numFmtHashTable', '_drawingHashTable', '_styleHashTable'];
 
 		// Set HashTable variables
 		foreach ($hashTablesArray as $tableName) {
@@ -206,7 +188,7 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
 			PHPExcel_Calculation_Functions::setReturnDateType(PHPExcel_Calculation_Functions::RETURNDATE_EXCEL);
 
 			// Create string lookup table
-			$this->_stringTable = array();
+			$this->_stringTable = [];
 			for ($i = 0; $i < $this->_spreadSheet->getSheetCount(); ++$i) {
 				$this->_stringTable = $this->getWriterPart('StringTable')->createStringTable($this->_spreadSheet->getSheet($i), $this->_stringTable);
 			}
@@ -263,13 +245,13 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
 				$tmpRibbonTarget=$this->_spreadSheet->getRibbonXMLData('target');
 				$objZip->addFromString($tmpRibbonTarget, $this->_spreadSheet->getRibbonXMLData('data'));
 				if($this->_spreadSheet->hasRibbonBinObjects()){
-					$tmpRootPath=dirname($tmpRibbonTarget).'/';
+					$tmpRootPath=dirname((string) $tmpRibbonTarget).'/';
 					$ribbonBinObjects=$this->_spreadSheet->getRibbonBinObjects('data');//the files to write
 					foreach($ribbonBinObjects as $aPath=>$aContent){
 						$objZip->addFromString($tmpRootPath.$aPath, $aContent);
 					}
 					//the rels for files
-					$objZip->addFromString($tmpRootPath.'_rels/'.basename($tmpRibbonTarget).'.rels',
+					$objZip->addFromString($tmpRootPath.'_rels/'.basename((string) $tmpRibbonTarget).'.rels',
 						$this->getWriterPart('RelsRibbonObjects')->writeRibbonRelationships($this->_spreadSheet));
 				}
 			}
@@ -364,7 +346,7 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
 				if ($this->getDrawingHashTable()->getByIndex($i) instanceof PHPExcel_Worksheet_Drawing) {
 					$imageContents = null;
 					$imagePath = $this->getDrawingHashTable()->getByIndex($i)->getPath();
-					if (strpos($imagePath, 'zip://') !== false) {
+					if (str_contains($imagePath, 'zip://')) {
 						$imagePath = substr($imagePath, 6);
 						$imagePathSplitted = explode('#', $imagePath);
 

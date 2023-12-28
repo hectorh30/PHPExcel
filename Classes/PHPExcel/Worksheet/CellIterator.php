@@ -38,20 +38,6 @@
 class PHPExcel_Worksheet_CellIterator implements Iterator
 {
 	/**
-	 * PHPExcel_Worksheet to iterate
-	 *
-	 * @var PHPExcel_Worksheet
-	 */
-	private $_subject;
-
-	/**
-	 * Row index
-	 *
-	 * @var int
-	 */
-	private $_rowIndex;
-
-	/**
 	 * Current iterator position
 	 *
 	 * @var int
@@ -66,16 +52,23 @@ class PHPExcel_Worksheet_CellIterator implements Iterator
 	private $_onlyExistingCells = true;
 
 	/**
-	 * Create a new cell iterator
-	 *
-	 * @param PHPExcel_Worksheet 		$subject
-	 * @param int						$rowIndex
-	 */
-	public function __construct(PHPExcel_Worksheet $subject = null, $rowIndex = 1) {
-		// Set subject and row index
-		$this->_subject 	= $subject;
-		$this->_rowIndex 	= $rowIndex;
-	}
+  * Create a new cell iterator
+  *
+  * @param PHPExcel_Worksheet $_subject
+  * @param int $_rowIndex
+  */
+ public function __construct(
+     /**
+      * PHPExcel_Worksheet to iterate
+      */
+     private ?\PHPExcel_Worksheet $_subject = null,
+     /**
+      * Row index
+      */
+     private $_rowIndex = 1
+ )
+ {
+ }
 
 	/**
 	 * Destructor

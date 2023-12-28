@@ -33,7 +33,7 @@
  * @package    PHPExcel
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
-class PHPExcel_Comment implements PHPExcel_IComparable
+class PHPExcel_Comment implements PHPExcel_IComparable, \Stringable
 {
     /**
      * Author
@@ -144,7 +144,6 @@ class PHPExcel_Comment implements PHPExcel_IComparable
     /**
      * Set Rich text comment
      *
-     * @param PHPExcel_RichText $pValue
      * @return PHPExcel_Comment
      */
     public function setText(PHPExcel_RichText $pValue) {
@@ -297,7 +296,7 @@ class PHPExcel_Comment implements PHPExcel_IComparable
             . ($this->_visible ? 1 : 0)
             . $this->_fillColor->getHashCode()
             . $this->_alignment
-            . __CLASS__
+            . self::class
         );
     }
 
@@ -320,7 +319,7 @@ class PHPExcel_Comment implements PHPExcel_IComparable
      *
      * @return string
      */
-    public function __toString() {
+    public function __toString(): string {
         return $this->_text->getPlainText();
     }
 

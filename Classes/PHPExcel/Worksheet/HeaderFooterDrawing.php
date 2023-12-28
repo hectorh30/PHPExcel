@@ -306,7 +306,7 @@ class PHPExcel_Worksheet_HeaderFooterDrawing extends PHPExcel_Worksheet_Drawing 
 
 	    		if ($this->_width == 0 && $this->_height == 0) {
 	    			// Get width/height
-	    			list($this->_width, $this->_height) = getimagesize($pValue);
+	    			[$this->_width, $this->_height] = getimagesize($pValue);
 	    		}
 	    	} else {
 	    		throw new PHPExcel_Exception("File $pValue not found!");
@@ -330,7 +330,7 @@ class PHPExcel_Worksheet_HeaderFooterDrawing extends PHPExcel_Worksheet_Drawing 
     		. $this->_offsetY
     		. $this->_width
     		. $this->_height
-    		. __CLASS__
+    		. self::class
     	);
     }
 

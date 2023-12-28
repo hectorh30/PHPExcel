@@ -31,7 +31,7 @@ if (!defined('PHPEXCEL_ROOT')) {
 	/**
 	 * @ignore
 	 */
-	define('PHPEXCEL_ROOT', dirname(__FILE__) . '/../../');
+	define('PHPEXCEL_ROOT', __DIR__ . '/../../');
 	require(PHPEXCEL_ROOT . 'PHPExcel/Autoloader.php');
 }
 
@@ -78,7 +78,7 @@ class PHPExcel_Calculation_LookupRef {
 		}
 
 		if ($sheetText > '') {
-			if (strpos($sheetText,' ') !== False) { $sheetText = "'".$sheetText."'"; }
+			if (str_contains($sheetText,' ')) { $sheetText = "'".$sheetText."'"; }
 			$sheetText .='!';
 		}
 		if ((!is_bool($referenceStyle)) || $referenceStyle) {
@@ -118,20 +118,20 @@ class PHPExcel_Calculation_LookupRef {
 				return (integer) PHPExcel_Cell::columnIndexFromString($columnKey);
 			}
 		} else {
-			if (strpos($cellAddress,'!') !== false) {
-				list($sheet,$cellAddress) = explode('!',$cellAddress);
+			if (str_contains($cellAddress,'!')) {
+				[$sheet, $cellAddress] = explode('!',$cellAddress);
 			}
-			if (strpos($cellAddress,':') !== false) {
-				list($startAddress,$endAddress) = explode(':',$cellAddress);
+			if (str_contains($cellAddress,':')) {
+				[$startAddress, $endAddress] = explode(':',$cellAddress);
 				$startAddress = preg_replace('/[^a-z]/i','',$startAddress);
 				$endAddress = preg_replace('/[^a-z]/i','',$endAddress);
-				$returnValue = array();
+				$returnValue = [];
 				do {
 					$returnValue[] = (integer) PHPExcel_Cell::columnIndexFromString($startAddress);
 				} while ($startAddress++ != $endAddress);
 				return $returnValue;
 			} else {
-				$cellAddress = preg_replace('/[^a-z]/i','',$cellAddress);
+				$cellAddress = preg_replace('/[^a-z]/i','',(string) $cellAddress);
 				return (integer) PHPExcel_Cell::columnIndexFromString($cellAddress);
 			}
 		}
@@ -159,7 +159,7 @@ class PHPExcel_Calculation_LookupRef {
 		$x = array_keys($cellAddress);
 		$x = array_shift($x);
 		$isMatrix = (is_numeric($x));
-		list($columns,$rows) = PHPExcel_Calculation::_getMatrixDimensions($cellAddress);
+		[$columns, $rows] = PHPExcel_Calculation::_getMatrixDimensions($cellAddress);
 
 		if ($isMatrix) {
 			return $rows;
@@ -189,24 +189,24 @@ class PHPExcel_Calculation_LookupRef {
 		if (is_array($cellAddress)) {
 			foreach($cellAddress as $columnKey => $rowValue) {
 				foreach($rowValue as $rowKey => $cellValue) {
-					return (integer) preg_replace('/[^0-9]/i','',$rowKey);
+					return (integer) preg_replace('/[^0-9]/i','',(string) $rowKey);
 				}
 			}
 		} else {
-			if (strpos($cellAddress,'!') !== false) {
-				list($sheet,$cellAddress) = explode('!',$cellAddress);
+			if (str_contains($cellAddress,'!')) {
+				[$sheet, $cellAddress] = explode('!',$cellAddress);
 			}
-			if (strpos($cellAddress,':') !== false) {
-				list($startAddress,$endAddress) = explode(':',$cellAddress);
+			if (str_contains($cellAddress,':')) {
+				[$startAddress, $endAddress] = explode(':',$cellAddress);
 				$startAddress = preg_replace('/[^0-9]/','',$startAddress);
 				$endAddress = preg_replace('/[^0-9]/','',$endAddress);
-				$returnValue = array();
+				$returnValue = [];
 				do {
 					$returnValue[][] = (integer) $startAddress;
 				} while ($startAddress++ != $endAddress);
 				return $returnValue;
 			} else {
-				list($cellAddress) = explode(':',$cellAddress);
+				[$cellAddress] = explode(':',$cellAddress);
 				return (integer) preg_replace('/[^0-9]/','',$cellAddress);
 			}
 		}
@@ -233,7 +233,7 @@ class PHPExcel_Calculation_LookupRef {
 
 		$i = array_keys($cellAddress);
 		$isMatrix = (is_numeric(array_shift($i)));
-		list($columns,$rows) = PHPExcel_Calculation::_getMatrixDimensions($cellAddress);
+		[$columns, $rows] = PHPExcel_Calculation::_getMatrixDimensions($cellAddress);
 
 		if ($isMatrix) {
 			return $columns;
@@ -303,18 +303,18 @@ class PHPExcel_Calculation_LookupRef {
 
 		$cellAddress1 = $cellAddress;
 		$cellAddress2 = NULL;
-		if (strpos($cellAddress,':') !== false) {
-			list($cellAddress1,$cellAddress2) = explode(':',$cellAddress);
+		if (str_contains($cellAddress,':')) {
+			[$cellAddress1, $cellAddress2] = explode(':',$cellAddress);
 		}
 
-		if ((!preg_match('/^'.PHPExcel_Calculation::CALCULATION_REGEXP_CELLREF.'$/i', $cellAddress1, $matches)) ||
+		if ((!preg_match('/^'.PHPExcel_Calculation::CALCULATION_REGEXP_CELLREF.'$/i', (string) $cellAddress1, $matches)) ||
 			((!is_null($cellAddress2)) && (!preg_match('/^'.PHPExcel_Calculation::CALCULATION_REGEXP_CELLREF.'$/i', $cellAddress2, $matches)))) {
-			if (!preg_match('/^'.PHPExcel_Calculation::CALCULATION_REGEXP_NAMEDRANGE.'$/i', $cellAddress1, $matches)) {
+			if (!preg_match('/^'.PHPExcel_Calculation::CALCULATION_REGEXP_NAMEDRANGE.'$/i', (string) $cellAddress1, $matches)) {
 				return PHPExcel_Calculation_Functions::REF();
 			}
 
-			if (strpos($cellAddress,'!') !== FALSE) {
-				list($sheetName, $cellAddress) = explode('!',$cellAddress);
+			if (str_contains($cellAddress,'!')) {
+				[$sheetName, $cellAddress] = explode('!',$cellAddress);
 				$sheetName = trim($sheetName, "'");
 				$pSheet = $pCell->getWorksheet()->getParent()->getSheetByName($sheetName);
 			} else {
@@ -324,8 +324,8 @@ class PHPExcel_Calculation_LookupRef {
 			return PHPExcel_Calculation::getInstance()->extractNamedRange($cellAddress, $pSheet, FALSE);
 		}
 
-		if (strpos($cellAddress,'!') !== FALSE) {
-			list($sheetName,$cellAddress) = explode('!',$cellAddress);
+		if (str_contains($cellAddress,'!')) {
+			[$sheetName, $cellAddress] = explode('!',$cellAddress);
 			$sheetName = trim($sheetName, "'");
 			$pSheet = $pCell->getWorksheet()->getParent()->getSheetByName($sheetName);
 		} else {
@@ -377,17 +377,17 @@ class PHPExcel_Calculation_LookupRef {
 		}
 
 		$sheetName = NULL;
-		if (strpos($cellAddress,"!")) {
-			list($sheetName,$cellAddress) = explode("!",$cellAddress);
+		if (strpos((string) $cellAddress,"!")) {
+			[$sheetName, $cellAddress] = explode("!",$cellAddress);
 			$sheetName = trim($sheetName, "'");
 		}
-		if (strpos($cellAddress,":")) {
-			list($startCell,$endCell) = explode(":",$cellAddress);
+		if (strpos((string) $cellAddress,":")) {
+			[$startCell, $endCell] = explode(":",$cellAddress);
 		} else {
 			$startCell = $endCell = $cellAddress;
 		}
-		list($startCellColumn,$startCellRow) = PHPExcel_Cell::coordinateFromString($startCell);
-		list($endCellColumn,$endCellRow) = PHPExcel_Cell::coordinateFromString($endCell);
+		[$startCellColumn, $startCellRow] = PHPExcel_Cell::coordinateFromString($startCell);
+		[$endCellColumn, $endCellRow] = PHPExcel_Cell::coordinateFromString($endCell);
 
 		$startCellRow += $rows;
 		$startCellColumn = PHPExcel_Cell::columnIndexFromString($startCellColumn) - 1;
@@ -620,7 +620,7 @@ class PHPExcel_Calculation_LookupRef {
 				return $arrayValues;
 			}
 			$rowNum = $rowKeys[--$rowNum];
-			$returnArray = array();
+			$returnArray = [];
 			foreach($arrayValues as $arrayColumn) {
 				if (is_array($arrayColumn)) {
 					if (isset($arrayColumn[$rowNum])) {
@@ -655,8 +655,8 @@ class PHPExcel_Calculation_LookupRef {
 	 * Unlike the Excel TRANSPOSE function, which will only work on a single row or column, this function will transpose a full matrix.
 	 */
 	public static function TRANSPOSE($matrixData) {
-		$returnMatrix = array();
-		if (!is_array($matrixData)) { $matrixData = array(array($matrixData)); }
+		$returnMatrix = [];
+		if (!is_array($matrixData)) { $matrixData = [[$matrixData]]; }
 
 		$column = 0;
 		foreach($matrixData as $matrixRow) {
@@ -674,10 +674,7 @@ class PHPExcel_Calculation_LookupRef {
 	private static function _vlookupSort($a,$b) {
 		$f = array_keys($a);
 		$firstColumn = array_shift($f);
-		if (strtolower($a[$firstColumn]) == strtolower($b[$firstColumn])) {
-			return 0;
-		}
-		return (strtolower($a[$firstColumn]) < strtolower($b[$firstColumn])) ? -1 : 1;
+  return strtolower($a[$firstColumn]) <=> strtolower($b[$firstColumn]);
 	}	//	function _vlookupSort()
 
 
@@ -716,7 +713,7 @@ class PHPExcel_Calculation_LookupRef {
 		}
 
 		if (!$not_exact_match) {
-			uasort($lookup_array,array('self','_vlookupSort'));
+			uasort($lookup_array,['self', '_vlookupSort']);
 		}
 
 		$rowNumber = $rowValue = False;
@@ -870,7 +867,7 @@ class PHPExcel_Calculation_LookupRef {
 				if (is_array($dataValue2)) {
 					$dataValue2 = array_shift($dataValue2);
 				}
-				$value = array($key1 => $dataValue1, $key2 => $dataValue2);
+				$value = [$key1 => $dataValue1, $key2 => $dataValue2];
 			}
 			unset($value);
 		}

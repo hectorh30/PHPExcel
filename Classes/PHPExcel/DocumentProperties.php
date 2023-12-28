@@ -36,12 +36,12 @@
 class PHPExcel_DocumentProperties
 {
     /** constants */
-    const PROPERTY_TYPE_BOOLEAN	= 'b';
-    const PROPERTY_TYPE_INTEGER = 'i';
-    const PROPERTY_TYPE_FLOAT   = 'f';
-    const PROPERTY_TYPE_DATE    = 'd';
-    const PROPERTY_TYPE_STRING  = 's';
-    const PROPERTY_TYPE_UNKNOWN = 'u';
+    final public const PROPERTY_TYPE_BOOLEAN	= 'b';
+    final public const PROPERTY_TYPE_INTEGER = 'i';
+    final public const PROPERTY_TYPE_FLOAT   = 'f';
+    final public const PROPERTY_TYPE_DATE    = 'd';
+    final public const PROPERTY_TYPE_STRING  = 's';
+    final public const PROPERTY_TYPE_UNKNOWN = 'u';
 
     /**
      * Creator
@@ -125,7 +125,7 @@ class PHPExcel_DocumentProperties
      *
      * @var string
      */
-    private $_customProperties    = array();
+    private $_customProperties    = [];
 
 
     /**
@@ -428,7 +428,6 @@ class PHPExcel_DocumentProperties
      * Set a Custom Property
      *
      * @param string $propertyName
-     * @param mixed $propertyValue
      * @param string $propertyType
      * 	 'i'    : Integer
      *   'f' : Floating Point
@@ -437,12 +436,8 @@ class PHPExcel_DocumentProperties
      *   'b' : Boolean
      * @return PHPExcel_DocumentProperties
      */
-    public function setCustomProperty($propertyName,$propertyValue='',$propertyType=NULL) {
-        if (($propertyType === NULL) || (!in_array($propertyType,array(self::PROPERTY_TYPE_INTEGER,
-                                                                       self::PROPERTY_TYPE_FLOAT,
-                                                                       self::PROPERTY_TYPE_STRING,
-                                                                       self::PROPERTY_TYPE_DATE,
-                                                                       self::PROPERTY_TYPE_BOOLEAN)))) {
+    public function setCustomProperty($propertyName,mixed $propertyValue='',$propertyType=NULL) {
+        if (($propertyType === NULL) || (!in_array($propertyType,[self::PROPERTY_TYPE_INTEGER, self::PROPERTY_TYPE_FLOAT, self::PROPERTY_TYPE_STRING, self::PROPERTY_TYPE_DATE, self::PROPERTY_TYPE_BOOLEAN]))) {
             if ($propertyValue === NULL) {
                 $propertyType = self::PROPERTY_TYPE_STRING;
             } elseif (is_float($propertyValue)) {
@@ -456,7 +451,7 @@ class PHPExcel_DocumentProperties
             }
         }
 
-        $this->_customProperties[$propertyName] = array('value' => $propertyValue, 'type' => $propertyType);
+        $this->_customProperties[$propertyName] = ['value' => $propertyValue, 'type' => $propertyType];
         return $this;
     }
 
@@ -474,114 +469,33 @@ class PHPExcel_DocumentProperties
         }
     }
 
-    public static function convertProperty($propertyValue,$propertyType) {
-        switch ($propertyType) {
-            case 'empty'    :    //    Empty
-                return '';
-                break;
-            case 'null'        :    //    Null
-                return NULL;
-                break;
-            case 'i1'        :    //    1-Byte Signed Integer
-            case 'i2'        :    //    2-Byte Signed Integer
-            case 'i4'        :    //    4-Byte Signed Integer
-            case 'i8'        :    //    8-Byte Signed Integer
-            case 'int'        :    //    Integer
-                return (int) $propertyValue;
-                break;
-            case 'ui1'        :    //    1-Byte Unsigned Integer
-            case 'ui2'        :    //    2-Byte Unsigned Integer
-            case 'ui4'        :    //    4-Byte Unsigned Integer
-            case 'ui8'        :    //    8-Byte Unsigned Integer
-            case 'uint'        :    //    Unsigned Integer
-                return abs((int) $propertyValue);
-                break;
-            case 'r4'        :    //    4-Byte Real Number
-            case 'r8'        :    //    8-Byte Real Number
-            case 'decimal'    :    //    Decimal
-                return (float) $propertyValue;
-                break;
-            case 'lpstr'    :    //    LPSTR
-            case 'lpwstr'    :    //    LPWSTR
-            case 'bstr'        :    //    Basic String
-                return $propertyValue;
-                break;
-            case 'date'        :    //    Date and Time
-            case 'filetime'    :    //    File Time
-                return strtotime($propertyValue);
-                break;
-            case 'bool'        :    //    Boolean
-                return ($propertyValue == 'true') ? True : False;
-                break;
-            case 'cy'        :    //    Currency
-            case 'error'    :    //    Error Status Code
-            case 'vector'    :    //    Vector
-            case 'array'    :    //    Array
-            case 'blob'        :    //    Binary Blob
-            case 'oblob'    :    //    Binary Blob Object
-            case 'stream'    :    //    Binary Stream
-            case 'ostream'    :    //    Binary Stream Object
-            case 'storage'    :    //    Binary Storage
-            case 'ostorage'    :    //    Binary Storage Object
-            case 'vstream'    :    //    Binary Versioned Stream
-            case 'clsid'    :    //    Class ID
-            case 'cf'        :    //    Clipboard Data
-                return $propertyValue;
-                break;
-        }
-        return $propertyValue;
+    public static function convertProperty($propertyValue, $propertyType)
+    {
+        return match ($propertyType) {
+            'empty' => '',
+            'null' => NULL,
+            'i1', 'i2', 'i4', 'i8', 'int' => (int) $propertyValue,
+            'ui1', 'ui2', 'ui4', 'ui8', 'uint' => abs((int) $propertyValue),
+            'r4', 'r8', 'decimal' => (float) $propertyValue,
+            'lpstr', 'lpwstr', 'bstr' => $propertyValue,
+            'date', 'filetime' => strtotime($propertyValue),
+            'bool' => ($propertyValue == 'true') ? True : False,
+            'cy', 'error', 'vector', 'array', 'blob', 'oblob', 'stream', 'ostream', 'storage', 'ostorage', 'vstream', 'clsid', 'cf' => $propertyValue,
+            default => $propertyValue,
+        };
     }
 
-    public static function convertPropertyType($propertyType) {
-        switch ($propertyType) {
-            case 'i1'        :    //    1-Byte Signed Integer
-            case 'i2'        :    //    2-Byte Signed Integer
-            case 'i4'        :    //    4-Byte Signed Integer
-            case 'i8'        :    //    8-Byte Signed Integer
-            case 'int'        :    //    Integer
-            case 'ui1'        :    //    1-Byte Unsigned Integer
-            case 'ui2'        :    //    2-Byte Unsigned Integer
-            case 'ui4'        :    //    4-Byte Unsigned Integer
-            case 'ui8'        :    //    8-Byte Unsigned Integer
-            case 'uint'        :    //    Unsigned Integer
-                return self::PROPERTY_TYPE_INTEGER;
-                break;
-            case 'r4'        :    //    4-Byte Real Number
-            case 'r8'        :    //    8-Byte Real Number
-            case 'decimal'    :    //    Decimal
-                return self::PROPERTY_TYPE_FLOAT;
-                break;
-            case 'empty'    :    //    Empty
-            case 'null'        :    //    Null
-            case 'lpstr'    :    //    LPSTR
-            case 'lpwstr'    :    //    LPWSTR
-            case 'bstr'        :    //    Basic String
-                return self::PROPERTY_TYPE_STRING;
-                break;
-            case 'date'        :    //    Date and Time
-            case 'filetime'    :    //    File Time
-                return self::PROPERTY_TYPE_DATE;
-                break;
-            case 'bool'        :    //    Boolean
-                return self::PROPERTY_TYPE_BOOLEAN;
-                break;
-            case 'cy'        :    //    Currency
-            case 'error'    :    //    Error Status Code
-            case 'vector'    :    //    Vector
-            case 'array'    :    //    Array
-            case 'blob'        :    //    Binary Blob
-            case 'oblob'    :    //    Binary Blob Object
-            case 'stream'    :    //    Binary Stream
-            case 'ostream'    :    //    Binary Stream Object
-            case 'storage'    :    //    Binary Storage
-            case 'ostorage'    :    //    Binary Storage Object
-            case 'vstream'    :    //    Binary Versioned Stream
-            case 'clsid'    :    //    Class ID
-            case 'cf'        :    //    Clipboard Data
-                return self::PROPERTY_TYPE_UNKNOWN;
-                break;
-        }
-        return self::PROPERTY_TYPE_UNKNOWN;
+    public static function convertPropertyType($propertyType)
+    {
+        return match ($propertyType) {
+            'i1', 'i2', 'i4', 'i8', 'int', 'ui1', 'ui2', 'ui4', 'ui8', 'uint' => self::PROPERTY_TYPE_INTEGER,
+            'r4', 'r8', 'decimal' => self::PROPERTY_TYPE_FLOAT,
+            'empty', 'null', 'lpstr', 'lpwstr', 'bstr' => self::PROPERTY_TYPE_STRING,
+            'date', 'filetime' => self::PROPERTY_TYPE_DATE,
+            'bool' => self::PROPERTY_TYPE_BOOLEAN,
+            'cy', 'error', 'vector', 'array', 'blob', 'oblob', 'stream', 'ostream', 'storage', 'ostorage', 'vstream', 'clsid', 'cf' => self::PROPERTY_TYPE_UNKNOWN,
+            default => self::PROPERTY_TYPE_UNKNOWN,
+        };
     }
 
 }

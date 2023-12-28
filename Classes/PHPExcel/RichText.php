@@ -33,7 +33,7 @@
  * @package    PHPExcel_RichText
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
-class PHPExcel_RichText implements PHPExcel_IComparable
+class PHPExcel_RichText implements PHPExcel_IComparable, \Stringable
 {
     /**
      * Rich text elements
@@ -45,13 +45,12 @@ class PHPExcel_RichText implements PHPExcel_IComparable
     /**
      * Create a new PHPExcel_RichText instance
      *
-     * @param PHPExcel_Cell $pCell
      * @throws PHPExcel_Exception
      */
     public function __construct(PHPExcel_Cell $pCell = null)
     {
         // Initialise variables
-        $this->_richTextElements = array();
+        $this->_richTextElements = [];
 
         // Rich-Text string attached to cell?
         if ($pCell !== NULL) {
@@ -132,7 +131,7 @@ class PHPExcel_RichText implements PHPExcel_IComparable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getPlainText();
     }
@@ -178,7 +177,7 @@ class PHPExcel_RichText implements PHPExcel_IComparable
 
         return md5(
               $hashElements
-            . __CLASS__
+            . self::class
         );
     }
 

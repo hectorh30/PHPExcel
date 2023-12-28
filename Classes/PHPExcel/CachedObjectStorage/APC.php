@@ -238,7 +238,7 @@ class PHPExcel_CachedObjectStorage_APC extends PHPExcel_CachedObjectStorage_Cach
         //    Flush the APC cache
         $this->__destruct();
 
-        $this->_cellCache = array();
+        $this->_cellCache = [];
 
         //    detach ourself from the worksheet, so that it can then delete this object successfully
         $this->_parent = null;
@@ -252,7 +252,7 @@ class PHPExcel_CachedObjectStorage_APC extends PHPExcel_CachedObjectStorage_Cach
      * @param  array of mixed      $arguments  Additional initialisation arguments
      */
     public function __construct(PHPExcel_Worksheet $parent, $arguments) {
-        $cacheTime = (isset($arguments['cacheTime'])) ? $arguments['cacheTime'] : 600;
+        $cacheTime = $arguments['cacheTime'] ?? 600;
 
         if ($this->_cachePrefix === NULL) {
             $baseUnique = $this->_getUniqueID();

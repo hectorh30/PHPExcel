@@ -38,7 +38,7 @@ class PHPExcel_Shared_String
 	/**	Constants				*/
 	/**	Regular Expressions		*/
 	//	Fraction
-	const STRING_REGEXP_FRACTION	= '(-?)(\d+)\s+(\d+\/\d+)';
+	final public const STRING_REGEXP_FRACTION	= '(-?)(\d+)\s+(\d+\/\d+)';
 
 
 	/**
@@ -46,14 +46,14 @@ class PHPExcel_Shared_String
 	 *
 	 * @var string[]
 	 */
-	private static $_controlCharacters = array();
+	private static $_controlCharacters = [];
 
 	/**
 	 * SYLK Characters array
 	 *
 	 * $var array
 	 */
-	private static $_SYLKCharacters = array();
+	private static $_SYLKCharacters = [];
 
 	/**
 	 * Decimal separator
@@ -108,164 +108,286 @@ class PHPExcel_Shared_String
 	 */
 	private static function _buildSYLKCharacters()
 	{
-		self::$_SYLKCharacters = array(
-			"\x1B 0"  => chr(0),
-			"\x1B 1"  => chr(1),
-			"\x1B 2"  => chr(2),
-			"\x1B 3"  => chr(3),
-			"\x1B 4"  => chr(4),
-			"\x1B 5"  => chr(5),
-			"\x1B 6"  => chr(6),
-			"\x1B 7"  => chr(7),
-			"\x1B 8"  => chr(8),
-			"\x1B 9"  => chr(9),
-			"\x1B :"  => chr(10),
-			"\x1B ;"  => chr(11),
-			"\x1B <"  => chr(12),
-			"\x1B :"  => chr(13),
-			"\x1B >"  => chr(14),
-			"\x1B ?"  => chr(15),
-			"\x1B!0"  => chr(16),
-			"\x1B!1"  => chr(17),
-			"\x1B!2"  => chr(18),
-			"\x1B!3"  => chr(19),
-			"\x1B!4"  => chr(20),
-			"\x1B!5"  => chr(21),
-			"\x1B!6"  => chr(22),
-			"\x1B!7"  => chr(23),
-			"\x1B!8"  => chr(24),
-			"\x1B!9"  => chr(25),
-			"\x1B!:"  => chr(26),
-			"\x1B!;"  => chr(27),
-			"\x1B!<"  => chr(28),
-			"\x1B!="  => chr(29),
-			"\x1B!>"  => chr(30),
-			"\x1B!?"  => chr(31),
-			"\x1B'?"  => chr(127),
-			"\x1B(0"  => '€', // 128 in CP1252
-			"\x1B(2"  => '‚', // 130 in CP1252
-			"\x1B(3"  => 'ƒ', // 131 in CP1252
-			"\x1B(4"  => '„', // 132 in CP1252
-			"\x1B(5"  => '…', // 133 in CP1252
-			"\x1B(6"  => '†', // 134 in CP1252
-			"\x1B(7"  => '‡', // 135 in CP1252
-			"\x1B(8"  => 'ˆ', // 136 in CP1252
-			"\x1B(9"  => '‰', // 137 in CP1252
-			"\x1B(:"  => 'Š', // 138 in CP1252
-			"\x1B(;"  => '‹', // 139 in CP1252
-			"\x1BNj"  => 'Œ', // 140 in CP1252
-			"\x1B(>"  => 'Ž', // 142 in CP1252
-			"\x1B)1"  => '‘', // 145 in CP1252
-			"\x1B)2"  => '’', // 146 in CP1252
-			"\x1B)3"  => '“', // 147 in CP1252
-			"\x1B)4"  => '”', // 148 in CP1252
-			"\x1B)5"  => '•', // 149 in CP1252
-			"\x1B)6"  => '–', // 150 in CP1252
-			"\x1B)7"  => '—', // 151 in CP1252
-			"\x1B)8"  => '˜', // 152 in CP1252
-			"\x1B)9"  => '™', // 153 in CP1252
-			"\x1B):"  => 'š', // 154 in CP1252
-			"\x1B);"  => '›', // 155 in CP1252
-			"\x1BNz"  => 'œ', // 156 in CP1252
-			"\x1B)>"  => 'ž', // 158 in CP1252
-			"\x1B)?"  => 'Ÿ', // 159 in CP1252
-			"\x1B*0"  => ' ', // 160 in CP1252
-			"\x1BN!"  => '¡', // 161 in CP1252
-			"\x1BN\"" => '¢', // 162 in CP1252
-			"\x1BN#"  => '£', // 163 in CP1252
-			"\x1BN("  => '¤', // 164 in CP1252
-			"\x1BN%"  => '¥', // 165 in CP1252
-			"\x1B*6"  => '¦', // 166 in CP1252
-			"\x1BN'"  => '§', // 167 in CP1252
-			"\x1BNH " => '¨', // 168 in CP1252
-			"\x1BNS"  => '©', // 169 in CP1252
-			"\x1BNc"  => 'ª', // 170 in CP1252
-			"\x1BN+"  => '«', // 171 in CP1252
-			"\x1B*<"  => '¬', // 172 in CP1252
-			"\x1B*="  => '­', // 173 in CP1252
-			"\x1BNR"  => '®', // 174 in CP1252
-			"\x1B*?"  => '¯', // 175 in CP1252
-			"\x1BN0"  => '°', // 176 in CP1252
-			"\x1BN1"  => '±', // 177 in CP1252
-			"\x1BN2"  => '²', // 178 in CP1252
-			"\x1BN3"  => '³', // 179 in CP1252
-			"\x1BNB " => '´', // 180 in CP1252
-			"\x1BN5"  => 'µ', // 181 in CP1252
-			"\x1BN6"  => '¶', // 182 in CP1252
-			"\x1BN7"  => '·', // 183 in CP1252
-			"\x1B+8"  => '¸', // 184 in CP1252
-			"\x1BNQ"  => '¹', // 185 in CP1252
-			"\x1BNk"  => 'º', // 186 in CP1252
-			"\x1BN;"  => '»', // 187 in CP1252
-			"\x1BN<"  => '¼', // 188 in CP1252
-			"\x1BN="  => '½', // 189 in CP1252
-			"\x1BN>"  => '¾', // 190 in CP1252
-			"\x1BN?"  => '¿', // 191 in CP1252
-			"\x1BNAA" => 'À', // 192 in CP1252
-			"\x1BNBA" => 'Á', // 193 in CP1252
-			"\x1BNCA" => 'Â', // 194 in CP1252
-			"\x1BNDA" => 'Ã', // 195 in CP1252
-			"\x1BNHA" => 'Ä', // 196 in CP1252
-			"\x1BNJA" => 'Å', // 197 in CP1252
-			"\x1BNa"  => 'Æ', // 198 in CP1252
-			"\x1BNKC" => 'Ç', // 199 in CP1252
-			"\x1BNAE" => 'È', // 200 in CP1252
-			"\x1BNBE" => 'É', // 201 in CP1252
-			"\x1BNCE" => 'Ê', // 202 in CP1252
-			"\x1BNHE" => 'Ë', // 203 in CP1252
-			"\x1BNAI" => 'Ì', // 204 in CP1252
-			"\x1BNBI" => 'Í', // 205 in CP1252
-			"\x1BNCI" => 'Î', // 206 in CP1252
-			"\x1BNHI" => 'Ï', // 207 in CP1252
-			"\x1BNb"  => 'Ð', // 208 in CP1252
-			"\x1BNDN" => 'Ñ', // 209 in CP1252
-			"\x1BNAO" => 'Ò', // 210 in CP1252
-			"\x1BNBO" => 'Ó', // 211 in CP1252
-			"\x1BNCO" => 'Ô', // 212 in CP1252
-			"\x1BNDO" => 'Õ', // 213 in CP1252
-			"\x1BNHO" => 'Ö', // 214 in CP1252
-			"\x1B-7"  => '×', // 215 in CP1252
-			"\x1BNi"  => 'Ø', // 216 in CP1252
-			"\x1BNAU" => 'Ù', // 217 in CP1252
-			"\x1BNBU" => 'Ú', // 218 in CP1252
-			"\x1BNCU" => 'Û', // 219 in CP1252
-			"\x1BNHU" => 'Ü', // 220 in CP1252
-			"\x1B-="  => 'Ý', // 221 in CP1252
-			"\x1BNl"  => 'Þ', // 222 in CP1252
-			"\x1BN{"  => 'ß', // 223 in CP1252
-			"\x1BNAa" => 'à', // 224 in CP1252
-			"\x1BNBa" => 'á', // 225 in CP1252
-			"\x1BNCa" => 'â', // 226 in CP1252
-			"\x1BNDa" => 'ã', // 227 in CP1252
-			"\x1BNHa" => 'ä', // 228 in CP1252
-			"\x1BNJa" => 'å', // 229 in CP1252
-			"\x1BNq"  => 'æ', // 230 in CP1252
-			"\x1BNKc" => 'ç', // 231 in CP1252
-			"\x1BNAe" => 'è', // 232 in CP1252
-			"\x1BNBe" => 'é', // 233 in CP1252
-			"\x1BNCe" => 'ê', // 234 in CP1252
-			"\x1BNHe" => 'ë', // 235 in CP1252
-			"\x1BNAi" => 'ì', // 236 in CP1252
-			"\x1BNBi" => 'í', // 237 in CP1252
-			"\x1BNCi" => 'î', // 238 in CP1252
-			"\x1BNHi" => 'ï', // 239 in CP1252
-			"\x1BNs"  => 'ð', // 240 in CP1252
-			"\x1BNDn" => 'ñ', // 241 in CP1252
-			"\x1BNAo" => 'ò', // 242 in CP1252
-			"\x1BNBo" => 'ó', // 243 in CP1252
-			"\x1BNCo" => 'ô', // 244 in CP1252
-			"\x1BNDo" => 'õ', // 245 in CP1252
-			"\x1BNHo" => 'ö', // 246 in CP1252
-			"\x1B/7"  => '÷', // 247 in CP1252
-			"\x1BNy"  => 'ø', // 248 in CP1252
-			"\x1BNAu" => 'ù', // 249 in CP1252
-			"\x1BNBu" => 'ú', // 250 in CP1252
-			"\x1BNCu" => 'û', // 251 in CP1252
-			"\x1BNHu" => 'ü', // 252 in CP1252
-			"\x1B/="  => 'ý', // 253 in CP1252
-			"\x1BN|"  => 'þ', // 254 in CP1252
-			"\x1BNHy" => 'ÿ', // 255 in CP1252
-		);
+		self::$_SYLKCharacters = [
+      "\x1B 0"  => chr(0),
+      "\x1B 1"  => chr(1),
+      "\x1B 2"  => chr(2),
+      "\x1B 3"  => chr(3),
+      "\x1B 4"  => chr(4),
+      "\x1B 5"  => chr(5),
+      "\x1B 6"  => chr(6),
+      "\x1B 7"  => chr(7),
+      "\x1B 8"  => chr(8),
+      "\x1B 9"  => chr(9),
+      "\x1B :"  => chr(10),
+      "\x1B ;"  => chr(11),
+      "\x1B <"  => chr(12),
+      "\x1B :"  => chr(13),
+      "\x1B >"  => chr(14),
+      "\x1B ?"  => chr(15),
+      "\x1B!0"  => chr(16),
+      "\x1B!1"  => chr(17),
+      "\x1B!2"  => chr(18),
+      "\x1B!3"  => chr(19),
+      "\x1B!4"  => chr(20),
+      "\x1B!5"  => chr(21),
+      "\x1B!6"  => chr(22),
+      "\x1B!7"  => chr(23),
+      "\x1B!8"  => chr(24),
+      "\x1B!9"  => chr(25),
+      "\x1B!:"  => chr(26),
+      "\x1B!;"  => chr(27),
+      "\x1B!<"  => chr(28),
+      "\x1B!="  => chr(29),
+      "\x1B!>"  => chr(30),
+      "\x1B!?"  => chr(31),
+      "\x1B'?"  => chr(127),
+      "\x1B(0"  => '€',
+      // 128 in CP1252
+      "\x1B(2"  => '‚',
+      // 130 in CP1252
+      "\x1B(3"  => 'ƒ',
+      // 131 in CP1252
+      "\x1B(4"  => '„',
+      // 132 in CP1252
+      "\x1B(5"  => '…',
+      // 133 in CP1252
+      "\x1B(6"  => '†',
+      // 134 in CP1252
+      "\x1B(7"  => '‡',
+      // 135 in CP1252
+      "\x1B(8"  => 'ˆ',
+      // 136 in CP1252
+      "\x1B(9"  => '‰',
+      // 137 in CP1252
+      "\x1B(:"  => 'Š',
+      // 138 in CP1252
+      "\x1B(;"  => '‹',
+      // 139 in CP1252
+      "\x1BNj"  => 'Œ',
+      // 140 in CP1252
+      "\x1B(>"  => 'Ž',
+      // 142 in CP1252
+      "\x1B)1"  => '‘',
+      // 145 in CP1252
+      "\x1B)2"  => '’',
+      // 146 in CP1252
+      "\x1B)3"  => '“',
+      // 147 in CP1252
+      "\x1B)4"  => '”',
+      // 148 in CP1252
+      "\x1B)5"  => '•',
+      // 149 in CP1252
+      "\x1B)6"  => '–',
+      // 150 in CP1252
+      "\x1B)7"  => '—',
+      // 151 in CP1252
+      "\x1B)8"  => '˜',
+      // 152 in CP1252
+      "\x1B)9"  => '™',
+      // 153 in CP1252
+      "\x1B):"  => 'š',
+      // 154 in CP1252
+      "\x1B);"  => '›',
+      // 155 in CP1252
+      "\x1BNz"  => 'œ',
+      // 156 in CP1252
+      "\x1B)>"  => 'ž',
+      // 158 in CP1252
+      "\x1B)?"  => 'Ÿ',
+      // 159 in CP1252
+      "\x1B*0"  => ' ',
+      // 160 in CP1252
+      "\x1BN!"  => '¡',
+      // 161 in CP1252
+      "\x1BN\"" => '¢',
+      // 162 in CP1252
+      "\x1BN#"  => '£',
+      // 163 in CP1252
+      "\x1BN("  => '¤',
+      // 164 in CP1252
+      "\x1BN%"  => '¥',
+      // 165 in CP1252
+      "\x1B*6"  => '¦',
+      // 166 in CP1252
+      "\x1BN'"  => '§',
+      // 167 in CP1252
+      "\x1BNH " => '¨',
+      // 168 in CP1252
+      "\x1BNS"  => '©',
+      // 169 in CP1252
+      "\x1BNc"  => 'ª',
+      // 170 in CP1252
+      "\x1BN+"  => '«',
+      // 171 in CP1252
+      "\x1B*<"  => '¬',
+      // 172 in CP1252
+      "\x1B*="  => '­',
+      // 173 in CP1252
+      "\x1BNR"  => '®',
+      // 174 in CP1252
+      "\x1B*?"  => '¯',
+      // 175 in CP1252
+      "\x1BN0"  => '°',
+      // 176 in CP1252
+      "\x1BN1"  => '±',
+      // 177 in CP1252
+      "\x1BN2"  => '²',
+      // 178 in CP1252
+      "\x1BN3"  => '³',
+      // 179 in CP1252
+      "\x1BNB " => '´',
+      // 180 in CP1252
+      "\x1BN5"  => 'µ',
+      // 181 in CP1252
+      "\x1BN6"  => '¶',
+      // 182 in CP1252
+      "\x1BN7"  => '·',
+      // 183 in CP1252
+      "\x1B+8"  => '¸',
+      // 184 in CP1252
+      "\x1BNQ"  => '¹',
+      // 185 in CP1252
+      "\x1BNk"  => 'º',
+      // 186 in CP1252
+      "\x1BN;"  => '»',
+      // 187 in CP1252
+      "\x1BN<"  => '¼',
+      // 188 in CP1252
+      "\x1BN="  => '½',
+      // 189 in CP1252
+      "\x1BN>"  => '¾',
+      // 190 in CP1252
+      "\x1BN?"  => '¿',
+      // 191 in CP1252
+      "\x1BNAA" => 'À',
+      // 192 in CP1252
+      "\x1BNBA" => 'Á',
+      // 193 in CP1252
+      "\x1BNCA" => 'Â',
+      // 194 in CP1252
+      "\x1BNDA" => 'Ã',
+      // 195 in CP1252
+      "\x1BNHA" => 'Ä',
+      // 196 in CP1252
+      "\x1BNJA" => 'Å',
+      // 197 in CP1252
+      "\x1BNa"  => 'Æ',
+      // 198 in CP1252
+      "\x1BNKC" => 'Ç',
+      // 199 in CP1252
+      "\x1BNAE" => 'È',
+      // 200 in CP1252
+      "\x1BNBE" => 'É',
+      // 201 in CP1252
+      "\x1BNCE" => 'Ê',
+      // 202 in CP1252
+      "\x1BNHE" => 'Ë',
+      // 203 in CP1252
+      "\x1BNAI" => 'Ì',
+      // 204 in CP1252
+      "\x1BNBI" => 'Í',
+      // 205 in CP1252
+      "\x1BNCI" => 'Î',
+      // 206 in CP1252
+      "\x1BNHI" => 'Ï',
+      // 207 in CP1252
+      "\x1BNb"  => 'Ð',
+      // 208 in CP1252
+      "\x1BNDN" => 'Ñ',
+      // 209 in CP1252
+      "\x1BNAO" => 'Ò',
+      // 210 in CP1252
+      "\x1BNBO" => 'Ó',
+      // 211 in CP1252
+      "\x1BNCO" => 'Ô',
+      // 212 in CP1252
+      "\x1BNDO" => 'Õ',
+      // 213 in CP1252
+      "\x1BNHO" => 'Ö',
+      // 214 in CP1252
+      "\x1B-7"  => '×',
+      // 215 in CP1252
+      "\x1BNi"  => 'Ø',
+      // 216 in CP1252
+      "\x1BNAU" => 'Ù',
+      // 217 in CP1252
+      "\x1BNBU" => 'Ú',
+      // 218 in CP1252
+      "\x1BNCU" => 'Û',
+      // 219 in CP1252
+      "\x1BNHU" => 'Ü',
+      // 220 in CP1252
+      "\x1B-="  => 'Ý',
+      // 221 in CP1252
+      "\x1BNl"  => 'Þ',
+      // 222 in CP1252
+      "\x1BN{"  => 'ß',
+      // 223 in CP1252
+      "\x1BNAa" => 'à',
+      // 224 in CP1252
+      "\x1BNBa" => 'á',
+      // 225 in CP1252
+      "\x1BNCa" => 'â',
+      // 226 in CP1252
+      "\x1BNDa" => 'ã',
+      // 227 in CP1252
+      "\x1BNHa" => 'ä',
+      // 228 in CP1252
+      "\x1BNJa" => 'å',
+      // 229 in CP1252
+      "\x1BNq"  => 'æ',
+      // 230 in CP1252
+      "\x1BNKc" => 'ç',
+      // 231 in CP1252
+      "\x1BNAe" => 'è',
+      // 232 in CP1252
+      "\x1BNBe" => 'é',
+      // 233 in CP1252
+      "\x1BNCe" => 'ê',
+      // 234 in CP1252
+      "\x1BNHe" => 'ë',
+      // 235 in CP1252
+      "\x1BNAi" => 'ì',
+      // 236 in CP1252
+      "\x1BNBi" => 'í',
+      // 237 in CP1252
+      "\x1BNCi" => 'î',
+      // 238 in CP1252
+      "\x1BNHi" => 'ï',
+      // 239 in CP1252
+      "\x1BNs"  => 'ð',
+      // 240 in CP1252
+      "\x1BNDn" => 'ñ',
+      // 241 in CP1252
+      "\x1BNAo" => 'ò',
+      // 242 in CP1252
+      "\x1BNBo" => 'ó',
+      // 243 in CP1252
+      "\x1BNCo" => 'ô',
+      // 244 in CP1252
+      "\x1BNDo" => 'õ',
+      // 245 in CP1252
+      "\x1BNHo" => 'ö',
+      // 246 in CP1252
+      "\x1B/7"  => '÷',
+      // 247 in CP1252
+      "\x1BNy"  => 'ø',
+      // 248 in CP1252
+      "\x1BNAu" => 'ù',
+      // 249 in CP1252
+      "\x1BNBu" => 'ú',
+      // 250 in CP1252
+      "\x1BNCu" => 'û',
+      // 251 in CP1252
+      "\x1BNHu" => 'ü',
+      // 252 in CP1252
+      "\x1B/="  => 'ý',
+      // 253 in CP1252
+      "\x1BN|"  => 'þ',
+      // 254 in CP1252
+      "\x1BNHy" => 'ÿ',
+  ];
 	}
 
 	/**
@@ -403,17 +525,16 @@ class PHPExcel_Shared_String
 	 * @return boolean
 	 */
 	public static function IsUTF8($value = '') {
-		return $string === '' || preg_match('/^./su', $string) === 1;
+		return $string === '' || preg_match('/^./su', (string) $string) === 1;
 	}
 
 	/**
-	 * Formats a numeric value as a string for output in various output writers forcing
-	 * point as decimal separator in case locale is other than English.
-	 *
-	 * @param mixed $value
-	 * @return string
-	 */
-	public static function FormatNumber($value) {
+  * Formats a numeric value as a string for output in various output writers forcing
+  * point as decimal separator in case locale is other than English.
+  *
+  * @return string
+  */
+ public static function FormatNumber(mixed $value) {
 		if (is_float($value)) {
 			return str_replace(',', '.', $value);
 		}
@@ -431,7 +552,7 @@ class PHPExcel_Shared_String
 	 * @param mixed[] $arrcRuns Details of rich text runs in $value
 	 * @return string
 	 */
-	public static function UTF8toBIFF8UnicodeShort($value, $arrcRuns = array())
+	public static function UTF8toBIFF8UnicodeShort($value, $arrcRuns = [])
 	{
 		// character count
 		$ln = self::CountCharacters($value, 'UTF-8');
@@ -748,7 +869,7 @@ class PHPExcel_Shared_String
 	public static function SYLKtoUTF8($pValue = '')
 	{
 		// If there is no escape character in the string there is nothing to do
-		if (strpos($pValue, '') === false) {
+		if (!str_contains($pValue, '')) {
 			return $pValue;
 		}
 

@@ -75,11 +75,11 @@ class PHPExcel_Reader_Excel2007_Chart
 						switch ($chartDetailsKey) {
 							case "plotArea":
 									$plotAreaLayout = $XaxisLable = $YaxisLable = null;
-									$plotSeries = $plotAttributes = array();
+									$plotSeries = $plotAttributes = [];
 									foreach($chartDetails as $chartDetailKey => $chartDetail) {
 										switch ($chartDetailKey) {
 											case "layout":
-												$plotAreaLayout = self::_chartLayoutDetails($chartDetail,$namespacesChartMeta,'plotArea');
+												$plotAreaLayout = self::_chartLayoutDetails($chartDetail,$namespacesChartMeta);
 												break;
 											case "catAx":
 												if (isset($chartDetail->title)) {
@@ -186,7 +186,7 @@ class PHPExcel_Reader_Excel2007_Chart
 												$legendOverlay = self::_getAttribute($chartDetail, 'val', 'boolean');
 												break;
 											case "layout":
-												$legendLayout = self::_chartLayoutDetails($chartDetail,$namespacesChartMeta,'legend');
+												$legendLayout = self::_chartLayoutDetails($chartDetail,$namespacesChartMeta);
 												break;
 										}
 									}
@@ -203,7 +203,7 @@ class PHPExcel_Reader_Excel2007_Chart
 
 
 	private static function _chartTitle($titleDetails,$namespacesChartMeta,$type) {
-		$caption = array();
+		$caption = [];
 		$titleLayout = null;
 		foreach($titleDetails as $titleDetailKey => $chartDetail) {
 			switch ($titleDetailKey) {
@@ -235,7 +235,7 @@ class PHPExcel_Reader_Excel2007_Chart
 		if (is_null($details)) {
 			return null;
 		}
-		$layout = array();
+		$layout = [];
 		foreach($details as $detailKey => $detail) {
 //			echo $detailKey,' => ',self::_getAttribute($detail, 'val', 'string'),PHP_EOL;
 			$layout[$detailKey] = self::_getAttribute($detail, 'val', 'string');
@@ -247,7 +247,7 @@ class PHPExcel_Reader_Excel2007_Chart
 	private static function _chartDataSeries($chartDetail,$namespacesChartMeta,$plotType) {
 		$multiSeriesType = NULL;
 		$smoothLine = false;
-		$seriesLabel = $seriesCategory = $seriesValues = $plotOrder = array();
+		$seriesLabel = $seriesCategory = $seriesValues = $plotOrder = [];
 
 		$seriesDetailSet = $chartDetail->children($namespacesChartMeta['c']);
 		foreach($seriesDetailSet as $seriesDetailKey => $seriesDetails) {
@@ -324,7 +324,7 @@ class PHPExcel_Reader_Excel2007_Chart
 
 
 	private static function _chartDataSeriesValues($seriesValueSet,$dataType='n') {
-		$seriesVal = array();
+		$seriesVal = [];
 		$formatCode = '';
 		$pointCount = 0;
 
@@ -351,15 +351,12 @@ class PHPExcel_Reader_Excel2007_Chart
 			$seriesVal = NULL;
 		}
 
-		return array( 'formatCode'	=> $formatCode,
-					  'pointCount'	=> $pointCount,
-					  'dataValues'	=> $seriesVal
-					);
+		return ['formatCode'	=> $formatCode, 'pointCount'	=> $pointCount, 'dataValues'	=> $seriesVal];
 	}	//	function _chartDataSeriesValues()
 
 
 	private static function _chartDataSeriesValuesMultiLevel($seriesValueSet,$dataType='n') {
-		$seriesVal = array();
+		$seriesVal = [];
 		$formatCode = '';
 		$pointCount = 0;
 
@@ -384,10 +381,7 @@ class PHPExcel_Reader_Excel2007_Chart
 			}
 		}
 
-		return array( 'formatCode'	=> $formatCode,
-					  'pointCount'	=> $pointCount,
-					  'dataValues'	=> $seriesVal
-					);
+		return ['formatCode'	=> $formatCode, 'pointCount'	=> $pointCount, 'dataValues'	=> $seriesVal];
 	}	//	function _chartDataSeriesValuesMultiLevel()
 
 	private static function _parseRichText($titleDetailPart = null) {
@@ -457,7 +451,7 @@ class PHPExcel_Reader_Excel2007_Chart
 	}
 
 	private static function _readChartAttributes($chartDetail) {
-		$plotAttributes = array();
+		$plotAttributes = [];
 		if (isset($chartDetail->dLbls)) {
 			if (isset($chartDetail->dLbls->howLegendKey)) {
 				$plotAttributes['showLegendKey'] = self::_getAttribute($chartDetail->dLbls->showLegendKey, 'val', 'string');

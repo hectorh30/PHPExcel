@@ -36,13 +36,6 @@
 abstract class PHPExcel_Style_Supervisor
 {
 	/**
-	 * Supervisor?
-	 *
-	 * @var boolean
-	 */
-	protected $_isSupervisor;
-
-	/**
 	 * Parent. Only used for supervisor
 	 *
 	 * @var PHPExcel_Style
@@ -50,17 +43,20 @@ abstract class PHPExcel_Style_Supervisor
 	protected $_parent;
 
 	/**
-	 * Create a new PHPExcel_Style_Alignment
-	 *
-	 * @param	boolean	$isSupervisor	Flag indicating if this is a supervisor or not
-	 *									Leave this value at default unless you understand exactly what
-	 *										its ramifications are
-	 */
-	public function __construct($isSupervisor = FALSE)
-	{
-		// Supervisor?
-		$this->_isSupervisor = $isSupervisor;
-	}
+  * Create a new PHPExcel_Style_Alignment
+  *
+  * @param boolean $_isSupervisor Flag indicating if this is a supervisor or not
+  * 									Leave this value at default unless you understand exactly what
+  * 										its ramifications are
+  */
+ public function __construct(
+     /**
+      * Supervisor?
+      */
+     protected $_isSupervisor = FALSE
+ )
+ {
+ }
 
 	/**
 	 * Bind parent. Only used for supervisor

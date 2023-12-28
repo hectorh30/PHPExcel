@@ -35,13 +35,6 @@
  */
 class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_Writer_IWriter {
 	/**
-	 * PHPExcel object
-	 *
-	 * @var PHPExcel
-	 */
-	private $_phpExcel;
-
-	/**
 	 * Delimiter
 	 *
 	 * @var string
@@ -84,13 +77,18 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 	private $_excelCompatibility = false;
 
 	/**
-	 * Create a new PHPExcel_Writer_CSV
-	 *
-	 * @param	PHPExcel	$phpExcel	PHPExcel object
-	 */
-	public function __construct(PHPExcel $phpExcel) {
-		$this->_phpExcel	= $phpExcel;
-	}
+  * Create a new PHPExcel_Writer_CSV
+  *
+  * @param PHPExcel $_phpExcel PHPExcel object
+  */
+ public function __construct(
+     /**
+      * PHPExcel object
+      */
+     private readonly PHPExcel $_phpExcel
+ )
+ {
+ }
 
 	/**
 	 * Save PHPExcel to file
@@ -274,7 +272,7 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 	 * @param	array	$pValues		Array containing values in a row
 	 * @throws	PHPExcel_Writer_Exception
 	 */
-	private function _writeLine($pFileHandle = null, $pValues = null) {
+	private function _writeLine(mixed $pFileHandle = null, $pValues = null) {
 		if (is_array($pValues)) {
 			// No leading delimiter
 			$writeDelimiter = false;
@@ -284,7 +282,7 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 
 			foreach ($pValues as $element) {
 				// Escape enclosures
-				$element = str_replace($this->_enclosure, $this->_enclosure . $this->_enclosure, $element);
+				$element = str_replace($this->_enclosure, $this->_enclosure . $this->_enclosure, (string) $element);
 
 				// Add delimiter
 				if ($writeDelimiter) {

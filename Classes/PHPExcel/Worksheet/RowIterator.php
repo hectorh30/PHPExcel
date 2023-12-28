@@ -38,13 +38,6 @@
 class PHPExcel_Worksheet_RowIterator implements Iterator
 {
 	/**
-	 * PHPExcel_Worksheet to iterate
-	 *
-	 * @var PHPExcel_Worksheet
-	 */
-	private $_subject;
-
-	/**
 	 * Current iterator position
 	 *
 	 * @var int
@@ -60,14 +53,15 @@ class PHPExcel_Worksheet_RowIterator implements Iterator
 
 
 	/**
-	 * Create a new row iterator
-	 *
-	 * @param	PHPExcel_Worksheet	$subject	The worksheet to iterate over
-	 * @param	integer				$startRow	The row number at which to start iterating
-	 */
-	public function __construct(PHPExcel_Worksheet $subject = null, $startRow = 1) {
-		// Set subject
-		$this->_subject = $subject;
+  * Create a new row iterator
+  *
+  * @param PHPExcel_Worksheet $_subject The worksheet to iterate over
+  * @param	integer				$startRow	The row number at which to start iterating
+  */
+ public function __construct(/**
+  * PHPExcel_Worksheet to iterate
+  */
+ private ?\PHPExcel_Worksheet $_subject = null, $startRow = 1) {
 		$this->resetStart($startRow);
 	}
 

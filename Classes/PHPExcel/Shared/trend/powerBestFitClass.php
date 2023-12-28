@@ -54,7 +54,7 @@ class PHPExcel_Power_Best_Fit extends PHPExcel_Best_Fit
 	 * @return	 float						Y-Value
 	 **/
 	public function getValueOfYForX($xValue) {
-		return $this->getIntersect() * pow(($xValue - $this->_Xoffset),$this->getSlope());
+		return $this->getIntersect() * ($xValue - $this->_Xoffset) ** $this->getSlope();
 	}	//	function getValueOfYForX()
 
 
@@ -65,7 +65,7 @@ class PHPExcel_Power_Best_Fit extends PHPExcel_Best_Fit
 	 * @return	 float						X-Value
 	 **/
 	public function getValueOfXForY($yValue) {
-		return pow((($yValue + $this->_Yoffset) / $this->getIntersect()),(1 / $this->getSlope()));
+		return (($yValue + $this->_Yoffset) / $this->getIntersect()) ** (1 / $this->getSlope());
 	}	//	function getValueOfXForY()
 
 
@@ -133,7 +133,7 @@ class PHPExcel_Power_Best_Fit extends PHPExcel_Best_Fit
 	 * @param	 float[]	$xValues	The set of X-values for this regression
 	 * @param	 boolean	$const
 	 */
-	function __construct($yValues, $xValues=array(), $const=True) {
+	function __construct($yValues, $xValues=[], $const=True) {
 		if (parent::__construct($yValues, $xValues) !== False) {
 			$this->_power_regression($yValues, $xValues, $const);
 		}

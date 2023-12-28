@@ -40,7 +40,7 @@ class PHPExcel_Calculation_Token_Stack {
 	 *
 	 *  @var mixed[]
 	 */
-	private $_stack = array();
+	private $_stack = [];
 
 	/**
 	 *  Count of entries in the parser stack
@@ -58,19 +58,11 @@ class PHPExcel_Calculation_Token_Stack {
 	public function count() {
 		return $this->_count;
 	}	//	function count()
-
-	/**
-	 * Push a new entry onto the stack
-	 *
-	 * @param  mixed  $type
-	 * @param  mixed  $value
-	 * @param  mixed  $reference
-	 */
-	public function push($type, $value, $reference = NULL) {
-		$this->_stack[$this->_count++] = array('type'		=> $type,
-											   'value'		=> $value,
-											   'reference'	=> $reference
-											  );
+ /**
+  * Push a new entry onto the stack
+  */
+ public function push(mixed $type, mixed $value, mixed $reference = NULL) {
+		$this->_stack[$this->_count++] = ['type'		=> $type, 'value'		=> $value, 'reference'	=> $reference];
 		if ($type == 'Function') {
 			$localeFunction = PHPExcel_Calculation::_localeFunc($value);
 			if ($localeFunction != $value) {
@@ -108,7 +100,7 @@ class PHPExcel_Calculation_Token_Stack {
 	 * Clear the stack
 	 */
 	function clear() {
-		$this->_stack = array();
+		$this->_stack = [];
 		$this->_count = 0;
 	}
 

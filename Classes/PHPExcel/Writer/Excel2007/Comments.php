@@ -36,13 +36,12 @@
 class PHPExcel_Writer_Excel2007_Comments extends PHPExcel_Writer_Excel2007_WriterPart
 {
 	/**
-	 * Write comments to XML format
-	 *
-	 * @param 	PHPExcel_Worksheet				$pWorksheet
-	 * @return 	string 								XML Output
-	 * @throws 	PHPExcel_Writer_Exception
-	 */
-	public function writeComments(PHPExcel_Worksheet $pWorksheet = null)
+  * Write comments to XML format
+  *
+  * @return 	string 								XML Output
+  * @throws 	PHPExcel_Writer_Exception
+  */
+ public function writeComments(PHPExcel_Worksheet $pWorksheet = null)
 	{
 		// Create XML writer
 		$objWriter = null;
@@ -59,7 +58,7 @@ class PHPExcel_Writer_Excel2007_Comments extends PHPExcel_Writer_Excel2007_Write
   		$comments	= $pWorksheet->getComments();
 
   		// Authors cache
-  		$authors	= array();
+  		$authors	= [];
   		$authorId	= 0;
 		foreach ($comments as $comment) {
 			if (!isset($authors[$comment->getAuthor()])) {
@@ -116,13 +115,12 @@ class PHPExcel_Writer_Excel2007_Comments extends PHPExcel_Writer_Excel2007_Write
 	}
 
 	/**
-	 * Write VML comments to XML format
-	 *
-	 * @param 	PHPExcel_Worksheet				$pWorksheet
-	 * @return 	string 								XML Output
-	 * @throws 	PHPExcel_Writer_Exception
-	 */
-	public function writeVMLComments(PHPExcel_Worksheet $pWorksheet = null)
+  * Write VML comments to XML format
+  *
+  * @return 	string 								XML Output
+  * @throws 	PHPExcel_Writer_Exception
+  */
+ public function writeVMLComments(PHPExcel_Worksheet $pWorksheet = null)
 	{
 		// Create XML writer
 		$objWriter = null;
@@ -198,7 +196,7 @@ class PHPExcel_Writer_Excel2007_Comments extends PHPExcel_Writer_Excel2007_Write
 	public function _writeVMLComment(PHPExcel_Shared_XMLWriter $objWriter = null, $pCellReference = 'A1', PHPExcel_Comment $pComment = null)
 	{
  		// Metadata
- 		list($column, $row) = PHPExcel_Cell::coordinateFromString($pCellReference);
+ 		[$column, $row] = PHPExcel_Cell::coordinateFromString($pCellReference);
  		$column = PHPExcel_Cell::columnIndexFromString($column);
  		$id = 1024 + $column + $row;
  		$id = substr($id, 0, 4);
