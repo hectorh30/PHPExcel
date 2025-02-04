@@ -67,12 +67,13 @@ class PHPExcel_NamedRange
      * Create a new NamedRange
      *
      * @param string $pName
+     * @param PHPExcel_Worksheet $pWorksheet
      * @param string $pRange
      * @param bool $_localOnly
      * @param PHPExcel_Worksheet|null $pScope	Scope. Only applies when $pLocalOnly = true. Null for global scope.
      * @throws PHPExcel_Exception
      */
-    public function __construct(PHPExcel_Worksheet $pWorksheet, $pName = null, $pRange = 'A1', /**
+    public function __construct($pName = null, PHPExcel_Worksheet $pWorksheet = null, $pRange = 'A1', /**
      * Is the named range local? (i.e. can only be used on $this->_worksheet)
      */
     private $_localOnly = false, $pScope = null)
