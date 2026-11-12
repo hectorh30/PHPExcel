@@ -484,10 +484,15 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		while ($this->_pos < $this->_dataSize) {
 			$code = self::_GetInt2d($this->_data, $this->_pos);
 
+			// ponytail: match no soporta break 2; EOF debe salir del while (Rector lo perdió)
+			if ($code === self::XLS_Type_EOF) {
+				$this->_readDefault();
+				break;
+			}
+
 			match ($code) {
        self::XLS_Type_BOF => $this->_readBof(),
        self::XLS_Type_SHEET => $this->_readSheet(),
-       self::XLS_Type_EOF => $this->_readDefault(),
        default => $this->_readDefault(),
    };
 		}
@@ -534,10 +539,15 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		while ($this->_pos < $this->_dataSize) {
 			$code = self::_GetInt2d($this->_data, $this->_pos);
 
+			// ponytail: match no soporta break 2; EOF debe salir del while (Rector lo perdió)
+			if ($code === self::XLS_Type_EOF) {
+				$this->_readDefault();
+				break;
+			}
+
 			match ($code) {
        self::XLS_Type_BOF => $this->_readBof(),
        self::XLS_Type_SHEET => $this->_readSheet(),
-       self::XLS_Type_EOF => $this->_readDefault(),
        default => $this->_readDefault(),
    };
 		}
@@ -648,6 +658,12 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		while ($this->_pos < $this->_dataSize) {
 			$code = self::_GetInt2d($this->_data, $this->_pos);
 
+			// ponytail: match no soporta break 2; EOF debe salir del while (Rector lo perdió)
+			if ($code === self::XLS_Type_EOF) {
+				$this->_readDefault();
+				break;
+			}
+
 			match ($code) {
        self::XLS_Type_BOF => $this->_readBof(),
        self::XLS_Type_FILEPASS => $this->_readFilepass(),
@@ -666,7 +682,6 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
        self::XLS_Type_DEFINEDNAME => $this->_readDefinedName(),
        self::XLS_Type_MSODRAWINGGROUP => $this->_readMsoDrawingGroup(),
        self::XLS_Type_SST => $this->_readSst(),
-       self::XLS_Type_EOF => $this->_readDefault(),
        default => $this->_readDefault(),
    };
 		}
@@ -788,6 +803,12 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 			while ($this->_pos <= $this->_dataSize - 4) {
 				$code = self::_GetInt2d($this->_data, $this->_pos);
 
+				// ponytail: match no soporta break 2; sin esto la hoja N+1 se lee encima de la N
+				if ($code === self::XLS_Type_EOF) {
+					$this->_readDefault();
+					break;
+				}
+
 				match ($code) {
         self::XLS_Type_BOF => $this->_readBof(),
         self::XLS_Type_PRINTGRIDLINES => $this->_readPrintGridlines(),
@@ -840,7 +861,6 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         self::XLS_Type_NOTE => $this->_readNote(),
         self::XLS_Type_TXO => $this->_readTextObject(),
         self::XLS_Type_CONTINUE => $this->_readContinue(),
-        self::XLS_Type_EOF => $this->_readDefault(),
         default => $this->_readDefault(),
     };
 
