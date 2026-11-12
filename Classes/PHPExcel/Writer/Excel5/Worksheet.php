@@ -2847,7 +2847,7 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
 				$options |= $type << 0;
 
 				// error style
-				$errorStyle = $dataValidation->getType();
+				$errorStyle = $dataValidation->getErrorStyle();
 				switch ($errorStyle) {
 					case PHPExcel_Cell_DataValidation::STYLE_STOP:			$errorStyle = 0x00;		break;
 					case PHPExcel_Cell_DataValidation::STYLE_WARNING:		$errorStyle = 0x01;		break;
@@ -2883,6 +2883,7 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
 					case PHPExcel_Cell_DataValidation::OPERATOR_LESSTHAN: $operator = 0x05			;	break;
 					case PHPExcel_Cell_DataValidation::OPERATOR_GREATERTHANOREQUAL: $operator = 0x06;	break;
 					case PHPExcel_Cell_DataValidation::OPERATOR_LESSTHANOREQUAL: $operator = 0x07	;	break;
+					default: $operator = 0x00; break; // ponytail: '' en PHP 8 no admite <<
 				}
 				$options |= $operator << 20;
 
